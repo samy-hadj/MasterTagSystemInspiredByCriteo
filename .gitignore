@@ -1,0 +1,13 @@
+# .gitignore
+/bin
+/obj
+/Properties/launchSettings.json
+.vscode/
+.angular/
+package-lock.json
+node_modules/
+dist/
+*.log
+*.tmp
+.idea/
+test-results/

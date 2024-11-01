@@ -1,0 +1,20 @@
+<div>
+    <h2>Validation de Tag</h2>
+    <form (ngSubmit)="validate()">
+      <label for="id">ID:</label>
+      <input type="text" id="id" [(ngModel)]="tag.Id" name="id" required>
+  
+      <label for="destinationUrl">URL de Destination:</label>
+      <input type="text" id="destinationUrl" [(ngModel)]="tag.DestinationUrl" name="destinationUrl" required>
+  
+      <label for="trackingData">Données de Suivi:</label>
+      <input type="text" id="trackingData" [(ngModel)]="tag.TrackingData" name="trackingData">
+  
+      <button type="submit">Valider le Tag</button>
+    </form>
+  
+    <div *ngIf="validationResult !== null">
+      <p>Résultat de la validation : {{ validationResult ? 'Valide' : 'Invalide' }}</p>
+    </div>
+  </div>
+  
