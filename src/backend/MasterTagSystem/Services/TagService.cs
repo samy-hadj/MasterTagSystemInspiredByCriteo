@@ -6,6 +6,7 @@ namespace MasterTagSystem.Services
     {
         public bool ValidateTag(Tag tag)
         {
+            Console.WriteLine("bonjours");
             // Exemple de validation : vérifier que l'ID et l'URL sont valides
             return !string.IsNullOrEmpty(tag.Id) && Uri.IsWellFormedUriString(tag.DestinationUrl, UriKind.Absolute);
         }

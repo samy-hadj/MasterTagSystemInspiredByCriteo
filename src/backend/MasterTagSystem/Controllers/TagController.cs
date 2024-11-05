@@ -18,6 +18,7 @@ namespace MasterTagSystem.Controllers
         [HttpPost("validate")]
         public IActionResult ValidateTag([FromBody] Tag tag)
         {
+            Console.WriteLine("BONJOUUUUUR");
             var isValid = _tagService.ValidateTag(tag);
             return Ok(new { isValid });
         }
