@@ -1,0 +1,10 @@
+<div class="tag-editor">
+  <h2>Éditeur de Tags JSON</h2>
+  <div class="editor-container">
+    <textarea [(ngModel)]="jsonContent" (input)="onJsonChange()" placeholder="Modifiez le JSON ici"></textarea>
+    <div class="json-tree">
+      <pre>{{ parsedJson | json }}</pre>
+    </div>
+  </div>
+  <button (click)="saveChanges()">Enregistrer les Modifications</button>
+</div>

@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http'; // Assurez-vous que c'e
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
-import { HomeComponent } from './components/home/home.component';
+import { TagEditorComponent } from './components/tag-editor/tag-editor.component';
 import { TagValidatorComponent } from './components/tag-validator/tag-validator.component';
 import { FormsModule } from '@angular/forms'; // Importation de FormsModule
 
@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms'; // Importation de FormsModule
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent,
+    TagEditorComponent,
     TagValidatorComponent,
     
   ],

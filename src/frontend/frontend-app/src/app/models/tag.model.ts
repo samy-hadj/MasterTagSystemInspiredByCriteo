@@ -1,5 +1,8 @@
+// tag.model.ts
 export interface Tag {
-    Id: string;      // Identifiant du tag en tant que chaîne
-    TrackingData: string;    // Nom du tag
+    Id: string;
     DestinationUrl: string;
-}
+    TrackingData: string;
+    // json?: string; // Ajouter ce champ si nécessaire
+  }
+  
