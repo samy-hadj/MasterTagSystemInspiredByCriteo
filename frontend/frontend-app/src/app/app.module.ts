@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { TagEditorComponent } from './components/tag-editor/tag-editor.component';
 import { TagValidatorComponent } from './components/tag-validator/tag-validator.component';
+import { TreeViewComponent } from './tree-view/tree-view.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { TagValidatorComponent } from './components/tag-validator/tag-validator.
     HeaderComponent,
     TagEditorComponent,
     TagValidatorComponent,
+    TreeViewComponent,
   ],
   imports: [
     BrowserModule,
