@@ -1,1 +1,18 @@
-<p>tree-view works!</p>
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <!-- Nœud avec enfant -->
+    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" [style.paddingLeft.px]="node.level * 20">
+      <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+        <mat-icon>
+          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+        </mat-icon>
+      </button>
+      {{node.name}}
+    </mat-tree-node>
+  
+    <!-- Nœud sans enfant -->
+    <mat-tree-node *matTreeNodeDef="let node" [style.paddingLeft.px]="node.level * 20">
+      <button mat-icon-button disabled></button>
+      {{node.name}}
+    </mat-tree-node>
+  </mat-tree>
+  

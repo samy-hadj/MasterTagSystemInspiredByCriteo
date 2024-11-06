@@ -8,6 +8,12 @@ import { HeaderComponent } from './components/header/header.component';
 import { TagEditorComponent } from './components/tag-editor/tag-editor.component';
 import { TagValidatorComponent } from './components/tag-validator/tag-validator.component';
 import { TreeViewComponent } from './tree-view/tree-view.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatTreeModule } from '@angular/material/tree';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+
 
 @NgModule({
   declarations: [
@@ -21,6 +27,10 @@ import { TreeViewComponent } from './tree-view/tree-view.component';
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    BrowserAnimationsModule,
+    MatTreeModule,
+    MatIconModule,
+    MatButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
