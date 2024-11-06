@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using MasterTagSystem.Models;
-using MasterTagSystem.Services;
 
 namespace MasterTagSystem.Controllers
 {
@@ -16,10 +15,10 @@ namespace MasterTagSystem.Controllers
         }
 
         [HttpPost("validate")]
-        public IActionResult ValidateTag([FromBody] Tag tag)
+        public IActionResult ValidateTag([FromBody] TagModel tag)
         {
             Console.WriteLine("BONJOUUUUUR");
-            var isValid = _tagService.ValidateTag(tag);
+            var isValid = _tagService.ValidateTag(tag); // Valide et ajoute dans MongoDB
             return Ok(new { isValid });
         }
     }

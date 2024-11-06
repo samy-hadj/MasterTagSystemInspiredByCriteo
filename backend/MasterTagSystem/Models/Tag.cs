@@ -1,6 +1,6 @@
 namespace MasterTagSystem.Models
 {
-    public class Tag
+    public class TagModel
     {
         public string Id { get; set; }
         public string DestinationUrl { get; set; }
