@@ -1,12 +1,14 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'; // Assurez-vous que c'est importé
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { IntegralUIModule } from '@lidorsystems/integralui-web/bin/integralui/integralui.module';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { TagEditorComponent } from './components/tag-editor/tag-editor.component';
 import { TagValidatorComponent } from './components/tag-validator/tag-validator.component';
-import { FormsModule } from '@angular/forms'; // Importation de FormsModule
+import { TreeViewComponent } from './tree-view/tree-view.component';
 
 @NgModule({
   declarations: [
@@ -14,14 +16,16 @@ import { FormsModule } from '@angular/forms'; // Importation de FormsModule
     HeaderComponent,
     TagEditorComponent,
     TagValidatorComponent,
-    
+    TreeViewComponent,
   ],
   imports: [
-    FormsModule, // Ajout de FormsModule ici
     BrowserModule,
-    HttpClientModule // Assurez-vous d'ajouter ce module ici
+    HttpClientModule,
+    FormsModule,
+    IntegralUIModule, // Ajout de IntegralUIModule ici
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // Ajout de CUSTOM_ELEMENTS_SCHEMA
 })
 export class AppModule { }

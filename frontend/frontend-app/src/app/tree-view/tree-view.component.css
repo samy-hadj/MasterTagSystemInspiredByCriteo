@@ -1,0 +1,74 @@
+.app-block {
+    width: 400px;
+    height: 400px;
+    
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Grid */
+.trw-dfjson-normal {
+    height: 100%;
+}
+.trw-dfjson-normal .iui-treeitem-animate {
+    margin: 1px 0;
+}
+.trw-dfjson-normal .iui-treeitem-expand-box {
+    margin-top: 6px !important;
+}
+.trw-dfjson-normal .iui-treeitem-content {
+    padding: 3px !important;
+}
+.trw-dfjson-label {
+    display: inline-block;
+    margin-top: 4px;
+    vertical-align: top;
+}
+
+.project-icons {
+    background-image: url(https://www.lidorsystems.com/images/integralui-web/resources/project.png);
+    background-repeat: no-repeat;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0 !important;
+    margin: 0 5px 0 0;
+    width: 24px;
+    height: 24px;
+}
+.empty {
+    background-position: 0px 0px;
+}
+.solution {
+    background-position: -24px 0px;
+}
+.documents {
+    background-position: -48px 0px;
+}
+.references {
+    background-position: -72px 0px;
+}
+.notes {
+    background-position: -96px 0px;
+}
+.assembly {
+    background-position: -120px 0px;
+}
+.resources {
+    background-position: -144px 0px;
+}
+.properties {
+    background-position: -168px 0px;
+}
+.new {
+    background-position: -192px 0px;
+}
+.form {
+    background-position: -216px 0px;
+}
+.empty-doc {
+    background-position: -240px 0px;
+}

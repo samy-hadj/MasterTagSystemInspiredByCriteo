@@ -1,0 +1,8 @@
+<div class="app-block" #application>
+    <iui-treeview [controlStyle]="ctrlStyle" [items]="items" [dataFields]="treeFields" [allowAnimation]="true" #treeview>
+        <ng-template let-item>
+            <span [ngClass]="item.icon"></span>
+            <span class="trw-dfjson-label">{{item.label}}</span>
+        </ng-template>
+    </iui-treeview>
+</div>
