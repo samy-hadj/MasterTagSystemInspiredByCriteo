@@ -1,0 +1,29 @@
+[
+    {
+      "name": "Animals",
+      "children": [
+        { "name": "Mammals" },
+        { "name": "Birds" },
+        { "name": "Reptiles" }
+      ]
+    },
+    {
+      "name": "Vehicles",
+      "children": [
+        {
+          "name": "Land",
+          "children": [
+            { "name": "Car" },
+            { "name": "Bike" }
+          ]
+        },
+        {
+          "name": "Air",
+          "children": [
+            { "name": "Airplane" },
+            { "name": "Helicopter" }
+          ]
+        }
+      ]
+    }
+]

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-tag-editor',
@@ -6,23 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./tag-editor.component.css']
 })
 export class TagEditorComponent {
-  jsonContent: string = '{\n  "Id": "ad_12345",\n  "DestinationUrl": "https://exemple.com/produit",\n  "TrackingData": "campaign_promo"\n}';
-  parsedJson: any;
-
-  constructor() {
-    this.parseJson();
-  }
+  @Input() jsonContent: string = '';   // JSON initial
+  @Output() jsonChange = new EventEmitter<string>();  // Émet les changements du JSON
 
   onJsonChange() {
-    this.parseJson();
-  }
-
-  parseJson() {
-    try {
-      this.parsedJson = JSON.parse(this.jsonContent);
-    } catch {
-      this.parsedJson = "JSON invalide";
-    }
+    this.jsonChange.emit(this.jsonContent);  // Émet les changements vers le parent
   }
 
   saveChanges() {

@@ -1,8 +1,0 @@
-<div class="tag-validator">
-  <h2>Validation de Tags</h2>
-  <textarea [(ngModel)]="jsonContent" placeholder="Entrez votre JSON ici"></textarea>
-  <button (click)="validateTag()">Valider le Tag</button>
-  <div *ngIf="validationResult" class="result">
-    Résultat de la validation : {{ validationResult }}
-  </div>
-</div>

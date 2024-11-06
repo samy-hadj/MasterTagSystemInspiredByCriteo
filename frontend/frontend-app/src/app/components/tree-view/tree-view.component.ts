@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { TreeDataService } from '../services/tree-data.service';  // Assurez-vous d'importer le service
+import { TreeDataService } from '../../services/tree-data.service';
 
 interface TreeNode {
   name: string;
@@ -19,7 +19,9 @@ interface FlatNode {
   templateUrl: './tree-view.component.html',
   styleUrls: ['./tree-view.component.css']
 })
-export class TreeViewComponent implements OnInit {
+export class TreeViewComponent implements OnInit, OnChanges {
+  @Input() jsonData: any; // Prend la donnée transmise depuis le parent
+
   private transformer = (node: TreeNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
@@ -45,9 +47,17 @@ export class TreeViewComponent implements OnInit {
   constructor(private treeDataService: TreeDataService) {}
 
   ngOnInit() {
-    this.treeDataService.getTreeData().subscribe(data => {
-      this.dataSource.data = data;  // Charge les données JSON dans le tree
-    });
+    if (this.jsonData) {
+      this.dataSource.data = this.jsonData;  // Charger les données JSON dans l'arbre
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['jsonData']) {  // Utilisation des crochets pour accéder à la propriété jsonData
+      if (this.jsonData) {
+        this.dataSource.data = this.jsonData;
+      }
+    }
   }
 
   hasChild = (_: number, node: FlatNode) => node.expandable;
