@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./tag-editor.component.css']
 })
 export class TagEditorComponent {
-  jsonContent: string = '{\n  "id": "ad_12345",\n  "url": "https://exemple.com/produit",\n  "trackingData": "campaign_promo"\n}';
+  jsonContent: string = '{\n  "Id": "ad_12345",\n  "DestinationUrl": "https://exemple.com/produit",\n  "TrackingData": "campaign_promo"\n}';
   parsedJson: any;
 
   constructor() {
