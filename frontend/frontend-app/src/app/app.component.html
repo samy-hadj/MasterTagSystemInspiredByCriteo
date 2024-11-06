@@ -1,15 +1,17 @@
 <div class="app-container">
-  <app-header></app-header> <!-- Votre composant Header -->
+  <app-header></app-header> <!-- Composant Header -->
 
   <div class="content">
-    <!-- Composant TagEditor à gauche -->
     <div class="editor-container">
       <app-tag-editor [jsonContent]="jsonContent" (jsonChange)="onJsonChange($event)"></app-tag-editor>
     </div>
 
-    <!-- Composant TreeView à droite -->
     <div class="tree-view-container">
       <app-tree-view [jsonData]="parsedJson"></app-tree-view>
+    </div>
+
+    <div class="info-table-container">
+      <app-info-table></app-info-table>
     </div>
   </div>
 </div>

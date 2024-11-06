@@ -1,0 +1,30 @@
+<div class="info-table-container">
+    <table class="info-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Data</th>
+          <th>Date de Création</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let json of jsonList">
+          <td>{{ json.id }}</td>
+          <td>{{ json.name }}</td>
+          <td>
+            <!-- Vérifie la longueur du texte pour afficher le tooltip -->
+            <span
+              class="data-cell"
+              [matTooltip]="json.data.length > 19 ? json.data : ''"
+              matTooltipPosition="above">
+              {{ json.data.length > 19 ? (json.data | slice:0:19) + '...' : json.data }}
+            </span>
+          </td>
+          <td>{{ json.createdAt | date: 'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="jsonList.length === 0" class="empty-message">Aucun JSON à afficher.</p>
+  </div>
+  

@@ -10,7 +10,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { TreeDataService } from './services/tree-data.service';  // Assurez-vous de l'importer ici
+import { TreeDataService } from './services/tree-data.service';
+import { InfoTableComponent } from './components/info-table/info-table.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,7 @@ import { TreeDataService } from './services/tree-data.service';  // Assurez-vous
     HeaderComponent,
     TagEditorComponent,
     TreeViewComponent,
+    InfoTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,6 +30,8 @@ import { TreeDataService } from './services/tree-data.service';  // Assurez-vous
     MatTreeModule,
     MatIconModule,
     MatButtonModule,
+    BrowserModule,
+    MatTooltipModule,
   ],
   providers: [TreeDataService],  // Assurez-vous d'ajouter ce service ici
   bootstrap: [AppComponent],

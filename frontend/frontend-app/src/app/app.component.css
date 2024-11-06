@@ -64,9 +64,10 @@ header {
     align-items: center;
     gap: 20px;
   }
-
+  
   .editor-container,
-  .tree-view-container {
+  .tree-view-container,
+  .info-table-container {
     width: 90%;
     margin-bottom: 20px;
   }
@@ -86,4 +87,19 @@ header {
   flex: 1;
   margin: 20px;
   gap: 20px;
+}
+
+/* TreeView container style (30%) */
+.info-table-container {
+  width: 80%;
+  /* min-width: 350px;
+  background-color: #ffffff;
+  padding: 30px;*/
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.info-table-container:hover {
+  transform: scale(1.02);
 }

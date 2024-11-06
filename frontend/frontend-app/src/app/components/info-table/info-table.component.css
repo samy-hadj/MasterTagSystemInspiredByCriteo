@@ -1,0 +1,68 @@
+.info-table-container {
+    width: 100%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .info-table thead {
+    background-color: #264653;
+    color: #ffffff;
+  }
+  
+  .info-table th,
+  .info-table td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+  
+  .info-table tbody tr:nth-child(even) {
+    background-color: #f3f3f3;
+  }
+  
+  .info-table tbody tr:hover {
+    background-color: #e8e8e8;
+  }
+  
+  .info-table th {
+    font-weight: 600;
+  }
+  
+  .info-table td {
+    color: #333333;
+  }
+  
+  .empty-message {
+    color: #888888;
+    text-align: center;
+    font-style: italic;
+    padding-top: 10px;
+  }
+  
+  .data-cell {
+    position: relative;
+    cursor: pointer;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+  /* Style optionnel pour le tooltip si tu veux personnaliser */
+  .mat-tooltip {
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  
