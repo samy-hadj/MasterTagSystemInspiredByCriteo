@@ -26,7 +26,7 @@ url = 'http://localhost:5000/api/tag/validate'  # Remplace par l'URL de ton back
 
 # Fonction pour générer des données JSON
 def generate_data():
-    return {"Id": "1234", "DestinationUrl": "https://example.com", "TrackingData": "some tracking dakkkta"}
+    return {"id": "123jDDDjlldohddlll44", "destinationUrl": "https://example.com", "trackingData": "some tracking dakkkta"}
 
 # Envoi de JSON toutes les 2 secondes
 while True:
