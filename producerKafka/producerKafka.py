@@ -16,19 +16,26 @@
 #     time.sleep(0.01)  # Délai de 10 ms pour simuler un débit élevé
 
 
-#FAKE PRODUCER:
+#FAKE PRODUCER
 import requests
 import json
 import time
+import random
+import string
 
 # URL de l'API de ton backend
 url = 'http://localhost:5000/api/tag/validate'  # Remplace par l'URL de ton backend C#
 
-# Fonction pour générer des données JSON
+# Fonction pour générer des données JSON avec un ID aléatoire
 def generate_data():
-    return {"id": "123jDDDjlldohddlll44", "destinationUrl": "https://example.com", "trackingData": "some tracking dakkkta"}
+    random_id = ''.join(random.choices(string.ascii_letters + string.digits, k=16))  # Génère un ID aléatoire
+    return {
+        "id": random_id, 
+        "destinationUrl": "https://example.com", 
+        "trackingData": "some tracking data"
+    }
 
-# Envoi de JSON toutes les 2 secondes
+# Envoi de JSON toutes les 4 secondes
 while True:
     data = generate_data()
     print(f"Envoi de message : {data}")
@@ -42,4 +49,4 @@ while True:
     else:
         print("Erreur dans l'envoi du message", response)
 
-    time.sleep(4)  # Envoi toutes les 2 secondes
+    time.sleep(4)  # Envoi toutes les 4 secondes
