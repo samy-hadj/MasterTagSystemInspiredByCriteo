@@ -1,26 +1,49 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Tag } from '../models/tag.model';
+import { Observable, Subject } from 'rxjs';
+import * as signalR from '@microsoft/signalr';
+import { TagModel } from '../models/tagModel.model';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class TagService {
   private apiUrl = 'http://localhost:5000/api/tag/validate';
-  private tagDataUrl = './assets/tagData.json';  // Chemin vers ton fichier JSON pour les données de tag
+  private hubUrl = 'http://localhost:5000/jsonHub';
 
-  constructor(private http: HttpClient) {}
+  private connection!: signalR.HubConnection;
+  private jsonDataSubject = new Subject<any>();
 
-  // Fonction pour valider un tag avec un POST
-  validateTag(tag: Tag): Observable<any> {
-    console.log("Sending request to:", this.apiUrl, "with payload:", tag);
-    return this.http.post<any>(this.apiUrl, tag); // Send `tag` directly
+  private tagDataUrl = './assets/tagData.json';
+
+  constructor(private http: HttpClient) {
+    this.setupSignalRConnection();
   }
 
-  // Nouvelle fonction pour récupérer les données de tag en GET
-  getTagData(): Observable<any> {
-    return this.http.get<any>(this.tagDataUrl);  // Assurez-vous que le fichier JSON est dans le dossier assets
+  validateTag(tag: TagModel): Observable<any> {
+    return this.http.post<any>(this.apiUrl, tag);
+  }
+
+  getRealTimeJsonData(): Observable<any> {
+    return this.jsonDataSubject.asObservable();
+  }
+
+  // Fonction pour récupérer les données de tag en GET
+  getTagData(): Observable<TagModel[]> {
+    return this.http.get<TagModel[]>(this.tagDataUrl);
+  }
+
+  private setupSignalRConnection(): void {
+    this.connection = new signalR.HubConnectionBuilder()
+      .withUrl(this.hubUrl, { withCredentials: true })
+      .build();
+
+    this.connection.start().then(() => {
+      console.log("Connected to SignalR hub");
+
+      this.connection.on("ReceiveJsonUpdate", (jsonData) => {
+        this.jsonDataSubject.next(jsonData);
+      });
+    }).catch(err => console.error("SignalR connection error:", err));
   }
 }

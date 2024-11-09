@@ -22,6 +22,7 @@
     "@angular/router": "^16.2.0",
     "@gjax/angular-tree-component": "^16.0.9",
     "@lidorsystems/integralui-web": "^20.2.1",
+    "@microsoft/signalr": "^8.0.7",
     "@soy-andrey-semyonov/ngx-treeview": "^16.0.0",
     "json-tree-view": "^0.4.12",
     "rxjs": "~7.8.0",

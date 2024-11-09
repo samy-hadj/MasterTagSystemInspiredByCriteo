@@ -48,6 +48,7 @@ export class TreeViewComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     if (this.jsonData) {
+      console.log('Données JSON:', this.jsonData);
       this.dataSource.data = this.jsonData;  // Charger les données JSON dans l'arbre
     }
   }

@@ -3,25 +3,22 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Nom</th>
-          <th>Data</th>
-          <th>Date de Création</th>
+          <th>Destination URL</th>
+          <th>Tracking Data</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let json of jsonList">
-          <td>{{ json.id }}</td>
-          <td>{{ json.name }}</td>
+        <tr *ngFor="let tag of jsonList">
+          <td>{{ tag.id }}</td>
+          <td>{{ tag.destinationUrl }}</td>
           <td>
-            <!-- Vérifie la longueur du texte pour afficher le tooltip -->
             <span
               class="data-cell"
-              [matTooltip]="json.data.length > 19 ? json.data : ''"
+              [matTooltip]="tag.trackingData.length > 20 ? tag.trackingData : ''"
               matTooltipPosition="above">
-              {{ json.data.length > 19 ? (json.data | slice:0:19) + '...' : json.data }}
+              {{ tag.trackingData.length > 20 ? (tag.trackingData | slice:0:20) + '...' : tag.trackingData }}
             </span>
           </td>
-          <td>{{ json.createdAt | date: 'short' }}</td>
         </tr>
       </tbody>
     </table>
