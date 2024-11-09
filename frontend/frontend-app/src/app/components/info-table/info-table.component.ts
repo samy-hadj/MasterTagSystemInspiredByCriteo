@@ -21,9 +21,14 @@ export class InfoTableComponent implements OnInit {
       (jsonData: TagModel) => {
         console.log('Received real-time JSON data:', jsonData);
         
-        // Ajouter l'objet jsonData à la liste, car il est déjà conforme à TagModel
-        this.jsonList.push(jsonData);
+        // Ajouter l'objet jsonData à la liste en haut
+        this.jsonList.unshift(jsonData);  // Ajout en début de liste
         
+        // Limiter la taille de la liste à 5 éléments maximum
+        if (this.jsonList.length > 5) {
+          this.jsonList.pop();  // Retirer le dernier élément si la taille dépasse 5
+        }
+
         console.log('Updated JSON list:', this.jsonList);
       },
       (error) => {
@@ -38,6 +43,11 @@ export class InfoTableComponent implements OnInit {
       (data: TagModel[]) => {
         console.log('Initial data loaded:', data);
         this.jsonList = data;
+        
+        // Limiter la taille de la liste à 5 éléments maximum après chargement initial
+        if (this.jsonList.length > 5) {
+          this.jsonList = this.jsonList.slice(0, 5);  // Garder seulement les 5 premiers
+        }
       },
       (error) => {
         console.error('Error loading initial data:', error);

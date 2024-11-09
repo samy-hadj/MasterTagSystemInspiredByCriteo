@@ -5,6 +5,8 @@
   align-items: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f7f7f7;
+  height: 100%;
+  width: 100%;
 }
 
 /* Header */
@@ -18,13 +20,46 @@ header {
 /* Content container with flex layout */
 .content {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+  padding: 20px;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Info Table container style */
+.info-table-container {
+  width: 100%;
+  max-width: 1200px; /* Limite la largeur maximale */
+  padding: 20px;
+  box-sizing: border-box;  /* Inclut padding dans la largeur totale */
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+.info-table-container:hover {
+  transform: scale(1.02);
+}
+
+/* Main container for editor and tree-view */
+.main-container {
+  display: flex;
   justify-content: space-between;
   width: 100%;
   max-width: 1200px;
   gap: 30px;
   margin-top: 20px;
-  flex-wrap: wrap;
   padding: 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* TagEditor container style (70%) */
@@ -36,6 +71,7 @@ header {
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
+  box-sizing: border-box;  /* Inclure padding dans la largeur totale */
 }
 
 .editor-container:hover {
@@ -51,6 +87,7 @@ header {
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
+  box-sizing: border-box;  /* Inclure padding dans la largeur totale */
 }
 
 .tree-view-container:hover {
@@ -64,42 +101,18 @@ header {
     align-items: center;
     gap: 20px;
   }
-  
+
+
+  /* Pour les petits écrans, les containers se placent en colonne */
+  .main-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
   .editor-container,
-  .tree-view-container,
-  .info-table-container {
+  .tree-view-container {
     width: 90%;
-    margin-bottom: 20px;
   }
 }
 
-
-/* Style pour l'application générale */
-.app-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
-/* Conteneur de la zone de contenu */
-.content {
-  display: flex;
-  flex: 1;
-  margin: 20px;
-  gap: 20px;
-}
-
-/* TreeView container style (30%) */
-.info-table-container {
-  width: 80%;
-  /* min-width: 350px;
-  background-color: #ffffff;
-  padding: 30px;*/
-  transition: transform 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-}
-
-.info-table-container:hover {
-  transform: scale(1.02);
-}
