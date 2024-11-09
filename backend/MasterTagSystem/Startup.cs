@@ -1,4 +1,5 @@
 using MongoDB.Driver;
+using MasterTagSystem.Hubs;
 
 namespace MasterTagSystem
 {
@@ -20,7 +21,7 @@ namespace MasterTagSystem
             var mongoConnectionString = "mongodb://localhost:27017"; // Connexion à MongoDB
             var mongoClient = new MongoClient(mongoConnectionString);
             var mongoDatabase = mongoClient.GetDatabase("CriteoProject"); // Nom de la base de données
-            
+
             // Test de la connexion MongoDB
             try
             {
@@ -34,13 +35,17 @@ namespace MasterTagSystem
 
             services.AddSingleton(mongoDatabase); // Injection de la base MongoDB
 
-            // Configuration CORS
+            // Ajouter SignalR
+            services.AddSignalR(); // Ajoutez SignalR ici
+
+            // Configuration CORS pour autoriser l'accès depuis le frontend Angular
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder.WithOrigins("http://localhost:4200") // Remplacez par l'URL de votre frontend
+                    builder => builder.WithOrigins("http://localhost:4200") // URL du frontend
                                     .AllowAnyHeader()
-                                    .AllowAnyMethod());
+                                    .AllowAnyMethod()
+                                    .AllowCredentials()); // Autoriser les cookies
             });
         }
 
@@ -59,6 +64,7 @@ namespace MasterTagSystem
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<JsonHub>("/jsonHub"); // Ajoutez le mapping pour le hub
             });
         }
     }

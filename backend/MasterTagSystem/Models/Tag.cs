@@ -2,8 +2,8 @@ namespace MasterTagSystem.Models
 {
     public class TagModel
     {
-        public string Id { get; set; }
-        public string DestinationUrl { get; set; }
-        public string TrackingData { get; set; }
+        public string id { get; set; }
+        public string destinationUrl { get; set; }
+        public string trackingData { get; set; }
     }
 }
