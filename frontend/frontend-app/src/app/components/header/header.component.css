@@ -41,5 +41,4 @@
 
 .header h1:hover {
   color: #f1f1f1; /* Change la couleur du titre lors du survol pour un effet interactif */
-  transform: scale(1.05); /* Effet d'agrandissement du titre au survol */
 }
