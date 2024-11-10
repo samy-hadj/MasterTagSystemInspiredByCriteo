@@ -1,32 +1,45 @@
 .header {
-  /* background-color: #d2d2d3; */
-  background-color: #4e5ba5;
-  background-color:#264653;
+  background-color: #264653; /* Couleur de fond plus sombre */
   color: #ffffff;
-  padding: 15px 30px;
+  padding: 25px 50px; /* Plus d'espace pour rendre l'en-tête plus aéré */
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Ombre douce et élégante */
-  border-radius: 16px; /* Bords arrondis */
-  margin-bottom: 20px; /* Espacement sous le header */
-  position: relative;
-  top: 10%; /* Décalage vers le haut */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Ombre plus douce et profonde */
+  position: sticky;
+  top: 0; /* Fixe l'élément en haut de la page */
+  z-index: 1000; /* Assure que le header soit au-dessus des autres éléments */
+  border-radius: 0 0 70px 70px; /* Arrondi uniquement les coins inférieurs */
+  flex: 1; /* Permet au header de prendre toute la largeur */
+  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Animation lors du changement */
 }
 
 .header::before {
   position: absolute;
-  top: -6px; /* Décalage vers le haut */
   left: 0;
   right: 0;
-  height: 6px; /* Taille de la marche */
+  height: 4px; /* Taille de la marche */
   background-color: #4e4e4e; /* Couleur de la marche */
   border-radius: 50% 50% 0 0; /* Arrondi en haut */
 }
 
 .header h1 {
-  font-size: 2rem; /* Taille du titre plus grande pour une meilleure visibilité */
+  font-size: 3rem; /* Taille plus grande pour une meilleure visibilité */
   margin: 0;
   font-weight: 700; /* Titre avec une font plus épaisse */
-  letter-spacing: 1px; /* Espacement entre les lettres pour un style plus moderne */
+  letter-spacing: 1.5px; /* Espacement entre les lettres pour un style plus moderne */
+  text-align: center; /* Centrer le texte */
+  width: 100%; /* Pour que le titre prenne toute la largeur et soit centré */
+  transition: transform 0.3s ease, color 0.3s ease; /* Animation lors du survol */
+}
+
+/* Ajout d'une animation au survol */
+.header:hover {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Ombre plus forte au survol */
+  transform: translateY(-5px); /* Légèrement décalé vers le haut pour un effet de flottement */
+}
+
+.header h1:hover {
+  color: #f1f1f1; /* Change la couleur du titre lors du survol pour un effet interactif */
+  transform: scale(1.05); /* Effet d'agrandissement du titre au survol */
 }
