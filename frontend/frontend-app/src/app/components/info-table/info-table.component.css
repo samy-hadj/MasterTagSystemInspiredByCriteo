@@ -66,3 +66,11 @@
     font-size: 12px;
   }
   
+  .table-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #264653;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  

@@ -46,7 +46,7 @@
 .save-button {
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #3f51b5;
+  background-color: #5a6fb8; /* Bleu plus doux */
   color: white;
   font-size: 16px;
   border: none;
@@ -56,8 +56,9 @@
 }
 
 .save-button:hover {
-  background-color: #303f9f;
+  background-color: #4d5fa2; /* Légèrement plus sombre au survol */
 }
+
 
 .save-button:active {
   background-color: #1a237e;
