@@ -22,38 +22,35 @@ namespace MasterTagSystem.Services
         {
             try
             {
-                // Validation des champs
-                if (string.IsNullOrEmpty(tag.id))
+                // Générer un nombre aléatoire entre 0 et 1, et valider si c'est inférieur ou égal à 10%
+                if (new Random().NextDouble() <= 0.1) // 10% de chance
                 {
-                    Console.WriteLine("Validation échouée : ID manquant.");
+                    // Validation des données
+                    if (string.IsNullOrEmpty(tag.id) ||
+                        string.IsNullOrEmpty(tag.destinationUrl) ||
+                        !Uri.IsWellFormedUriString(tag.destinationUrl, UriKind.Absolute) ||
+                        string.IsNullOrEmpty(tag.trackingData) ||
+                        tag.clickCount == null ||
+                        tag.sessionId == null)
+                    {
+                        Console.WriteLine("Données non valides ignorées.");
+                        return false;
+                    }
+
+                    // Insertion dans MongoDB si validé
+                    _jsonCollection.InsertOne(tag);
+                    Console.WriteLine("Insertion réussie : " + tag);
+
+                    // Diffusion aux clients
+                    _hubContext.Clients.All.SendAsync("ReceiveJsonUpdate", tag);
+                    return true;
+                }
+                else
+                {
+                    // Ignorer les messages non validés
+                    Console.WriteLine("Message ignoré.");
                     return false;
                 }
-
-                if (string.IsNullOrEmpty(tag.destinationUrl) || !Uri.IsWellFormedUriString(tag.destinationUrl, UriKind.Absolute))
-                {
-                    Console.WriteLine("Validation échouée : URL invalide.");
-                    return false;
-                }
-
-                if (string.IsNullOrEmpty(tag.trackingData))
-                {
-                    Console.WriteLine("Validation échouée : données de suivi manquantes.");
-                    return false;
-                }
-
-                if (tag.clickCount == null || tag.sessionId == null)
-                {
-                    Console.WriteLine("Validation échouée : informations de session ou clickCount manquantes.");
-                    return false;
-                }
-
-                _jsonCollection.InsertOne(tag);
-                Console.WriteLine("Insertion réussie : " + tag);
-
-                // Envoie les nouvelles données JSON aux clients connectés
-                _hubContext.Clients.All.SendAsync("ReceiveJsonUpdate", tag);
-
-                return true;
             }
             catch (Exception ex)
             {
