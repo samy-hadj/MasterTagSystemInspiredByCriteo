@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    position: relative; /* Nécessaire pour positionner le dropdown par rapport à ce conteneur */
   }
   
   .search-input {
@@ -14,6 +15,12 @@
     overflow-y: auto;
     border: 1px solid #ccc;
     border-radius: 5px;
+    background-color: #f7f7f7;
+    position: absolute;  /* Positionne le dropdown au-dessus des éléments en dessous */
+    top: 100%;  /* Place le dropdown juste en dessous du champ de recherche */
+    left: 0;
+    width: 100%;
+    z-index: 1000;  /* Assure que le dropdown est au-dessus des autres éléments */
   }
   
   mat-list-item {
@@ -23,4 +30,3 @@
   mat-list-item:hover {
     background-color: #f1f1f1;
   }
-  

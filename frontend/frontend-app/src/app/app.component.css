@@ -10,7 +10,7 @@ html, body {
   align-items: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f7f7f7;
-  height: 150%; /* Permet à app-container de prendre toute la hauteur */
+  height: 170%; /* Permet à app-container de prendre toute la hauteur */
   width: 100%;
   box-sizing: border-box; /* Prend en compte le padding dans la largeur/hauteur */
 }
