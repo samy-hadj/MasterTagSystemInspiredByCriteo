@@ -1,8 +1,8 @@
 from kafka import KafkaProducer
 import json
-import time
 import random
 import string
+import time
 
 # Callback en cas de succès d'envoi de message
 def on_send_success(record_metadata):
@@ -58,16 +58,27 @@ def generate_data():
         "details": details  # Ajout du champ avec des enfants
     }
 
-# Envoi de données toutes les 4 secondes avec des logs de succès/erreur
+# Boucle infinie pour envoyer 1000 messages chaque seconde
 while True:
-    data = generate_data()
-    print(f"Envoi du message : {data}")
+    start_time = time.time()
+    num_messages = 1000
+    messages_sent = 0
 
-    # Envoi du message au topic Kafka
-    future = producer.send('json-requests', value=data)
-    future.add_callback(on_send_success).add_errback(on_send_error)  # Ajoute les callbacks pour le succès et l'erreur
-    
-    # Forcer l'envoi immédiat
+    # Envoi de 1000 messages en 1 seconde
+    while messages_sent < num_messages:
+        data = generate_data()
+        # Envoi du message au topic Kafka
+        future = producer.send('json-requests', value=data)
+        future.add_callback(on_send_success).add_errback(on_send_error)  # Ajoute les callbacks pour le succès et l'erreur
+        messages_sent += 1
+
+    # Forcer l'envoi immédiat de tous les messages dans le batch
     producer.flush()
-    
-    time.sleep(3)  # Envoi toutes les 5 secondes
+
+    # Mesure le temps d'envoi
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Temps total pour envoyer {num_messages} messages : {elapsed_time:.2f} secondes.")
+
+    # Attente avant la prochaine itération pour respecter l'intervalle de 1 seconde
+    time.sleep(1)
