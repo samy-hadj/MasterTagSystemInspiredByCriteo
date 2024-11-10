@@ -1,0 +1,26 @@
+/* search-bar.component.css */
+.search-bar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .search-input {
+    margin-bottom: 10px;
+  }
+  
+  mat-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  mat-list-item {
+    cursor: pointer;
+  }
+  
+  mat-list-item:hover {
+    background-color: #f1f1f1;
+  }
+  

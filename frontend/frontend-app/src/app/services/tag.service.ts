@@ -14,7 +14,8 @@ export class TagService {
   private connection!: signalR.HubConnection;
   private jsonDataSubject = new Subject<any>();
 
-  private tagDataUrl = './assets/tagData.json';
+  private tagDataUrl = './assets/tagData.json'; // URL de votre fichier JSON local
+  private allJsonDataUrl = 'http://localhost:5000/api/tag/tags'; // URL pour récupérer tous les JSONs
 
   constructor(private http: HttpClient) {
     this.setupSignalRConnection();
@@ -28,9 +29,14 @@ export class TagService {
     return this.jsonDataSubject.asObservable();
   }
 
-  // Fonction pour récupérer les données de tag en GET
+  // Fonction pour récupérer un seul JSON
   getTagData(): Observable<TagModel[]> {
     return this.http.get<TagModel[]>(this.tagDataUrl);
+  }
+
+  // Fonction pour récupérer tous les JSONs disponibles
+  getAllTags(): Observable<TagModel[]> {
+    return this.http.get<TagModel[]>(this.allJsonDataUrl);
   }
 
   private setupSignalRConnection(): void {

@@ -1,0 +1,13 @@
+<div class="search-bar">
+    <mat-form-field appearance="fill" class="search-input">
+      <mat-label>Rechercher un JSON</mat-label>
+      <input matInput [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" placeholder="Rechercher..." />
+    </mat-form-field>
+  
+    <mat-list *ngIf="showDropdown && filteredJsons.length > 0">
+      <mat-list-item *ngFor="let json of filteredJsons" (click)="selectJson(json)">
+        {{ json.id }} <!-- Affiche l'ID dans le dropdown -->
+      </mat-list-item>
+    </mat-list>
+  </div>
+  
