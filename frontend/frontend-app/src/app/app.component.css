@@ -21,7 +21,7 @@ app-header {
   position: sticky;
   top: 0;
   z-index: 1000; 
-  background-color: #fff; 
+  background-color: #f7f7f7;
   width: 100%;
   /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); Optionnel : ajouter une ombre pour mieux le démarquer */
   /* padding: 20px; */
