@@ -13,9 +13,11 @@ export class TagService {
 
   private connection!: signalR.HubConnection;
   private jsonDataSubject = new Subject<any>();
-
+  
   private tagDataUrl = './assets/tagData.json'; // URL de votre fichier JSON local
   private allJsonDataUrl = 'http://localhost:5000/api/tag/tags'; // URL pour récupérer tous les JSONs
+  private updateTagUrl = 'http://localhost:5000/api/tag/update'; // URL pour mettre à jour un tag
+
 
   constructor(private http: HttpClient) {
     this.setupSignalRConnection();
@@ -37,6 +39,11 @@ export class TagService {
   // Fonction pour récupérer tous les JSONs disponibles
   getAllTags(): Observable<TagModel[]> {
     return this.http.get<TagModel[]>(this.allJsonDataUrl);
+  }
+
+  // Nouvelle fonction pour mettre à jour un tag
+  updateTag(id: string, tag: TagModel): Observable<any> {
+    return this.http.put<any>(`${this.updateTagUrl}/${id}`, tag);  // Utilisation de PUT ou PATCH selon le cas
   }
 
   private setupSignalRConnection(): void {

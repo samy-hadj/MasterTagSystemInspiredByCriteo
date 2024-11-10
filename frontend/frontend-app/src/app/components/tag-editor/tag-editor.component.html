@@ -1,8 +1,17 @@
 <div class="tag-editor">
   <h2>Éditeur de Tags JSON</h2>
   <div class="editor-container">
-    <!-- Zone de texte pour éditer le JSON -->
     <textarea [(ngModel)]="jsonContent" (input)="onJsonChange()" placeholder="Modifiez le JSON ici" class="json-textarea"></textarea>
   </div>
   <button (click)="saveChanges()" class="save-button">Enregistrer les Modifications</button>
+
+  <!-- Message de confirmation de succès -->
+  <div *ngIf="showConfirmation" class="confirmation-message success">
+    Modifications enregistrées avec succès!
+  </div>
+
+  <!-- Message d'erreur -->
+  <div *ngIf="showError" class="confirmation-message error">
+    Erreur lors de l'enregistrement des modifications.
+  </div>
 </div>

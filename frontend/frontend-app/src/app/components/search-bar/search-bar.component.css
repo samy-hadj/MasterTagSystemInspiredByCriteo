@@ -22,6 +22,9 @@
     width: 100%;
     z-index: 1000;  /* Assure que le dropdown est au-dessus des autres éléments */
   }
+  mat-label {
+    color: gray;
+  }
   
   mat-list-item {
     cursor: pointer;

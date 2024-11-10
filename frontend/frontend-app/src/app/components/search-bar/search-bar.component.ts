@@ -40,4 +40,10 @@ export class SearchBarComponent {
     this.searchQuery = json.id;   // Affiche l'ID dans la barre de recherche
     this.showDropdown = false;    // Cache le dropdown après la sélection
   }
+
+  // Méthode pour mettre à jour la liste des JSONs depuis le parent
+  updateJsonList(newJsons: any[]) {
+    this.jsons = newJsons;
+    this.filteredJsons = newJsons;  // Met à jour la liste filtrée aussi
+  }
 }
