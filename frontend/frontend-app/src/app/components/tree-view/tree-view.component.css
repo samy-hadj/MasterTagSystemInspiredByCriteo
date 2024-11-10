@@ -1,32 +1,32 @@
-/* Style pour l'arbre JSON */
 .tree-view {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  .mat-tree-node {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .node-name {
-    font-size: 1.1em;
-    color: #333;
-    font-weight: 500;
-  }
-  
-  button.mat-icon-button {
-    margin-right: 10px;
-    color: #3f51b5;
-  }
-  
-  /* Style de l'icône de bascule */
-  .mat-icon {
-    font-size: 1.5em;
-    transition: transform 0.3s ease;
-  }
-  
-  .mat-tree-node button.mat-icon-button:hover .mat-icon {
-    transform: scale(1.2);
-  }
-  
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 400px;  /* Ajustez la hauteur selon vos besoins */
+  overflow-y: auto; /* Permet le défilement vertical lorsque le contenu dépasse */
+}
+
+.mat-tree-node {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.node-name {
+  font-size: 1.1em;
+  color: #333;
+  font-weight: 500;
+}
+
+button.mat-icon-button {
+  margin-right: 10px;
+  color: #3f51b5;
+}
+
+/* Style de l'icône de bascule */
+.mat-icon {
+  font-size: 1.5em;
+  transition: transform 0.3s ease;
+}
+
+.mat-tree-node button.mat-icon-button:hover .mat-icon {
+  transform: scale(1.2);
+}
