@@ -28,5 +28,20 @@ namespace MasterTagSystem.Controllers
             var tags = _tagService.GetAllTags(); // Récupère tous les tags JSONs depuis MongoDB
             return Ok(tags);
         }
+
+        // Nouveau endpoint pour mettre à jour un tag
+        [HttpPut("update/{id}")]
+        public IActionResult UpdateTag(string id, [FromBody] TagModel updatedTag)
+        {
+            var isUpdated = _tagService.UpdateTag(id, updatedTag);
+            if (isUpdated)
+            {
+                return Ok(new { message = "Tag mis à jour avec succès." });
+            }
+            else
+            {
+                return NotFound(new { message = "Tag non trouvé ou non mis à jour." });
+            }
+        }
     }
 }
