@@ -1,13 +1,20 @@
 /* App container */
+html, body {
+  height: 100%; /* Assure que le HTML et le body occupent toute la hauteur de la fenêtre */
+  margin: 0;    /* Enlève les marges par défaut */
+}
+
 .app-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f7f7f7;
-  height: 100%;
+  height: 150%; /* Permet à app-container de prendre toute la hauteur */
   width: 100%;
+  box-sizing: border-box; /* Prend en compte le padding dans la largeur/hauteur */
 }
+
 
 /* Sticky Header */
 app-header {
