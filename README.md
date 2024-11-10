@@ -1,143 +1,132 @@
 # MasterTagSystem
 
-## Description du Projet
+## Description
 
-MasterTagSystem est un système de gestion de données JSON permettant la création, la modification et l’analyse de structures JSON complexes en temps réel. Ce projet comprend une architecture complète, avec un backend en C# pour le stockage et le traitement des données JSON, un frontend en Angular pour l'affichage et la manipulation de ces données sous forme d’arborescence, et Kafka pour gérer la transmission des données en temps réel. L'application utilise également Mesos pour l'orchestration des services afin de garantir l’évolutivité du système dans un contexte de traitement à grande échelle.
+MasterTagSystem est une application de gestion et de traitement en temps réel de données JSON, avec un backend en C# (ASP.NET Core) pour le stockage et la validation, un frontend en Angular pour la visualisation et l'édition des données, et Kafka pour le streaming de messages. La solution inclut MongoDB pour le stockage des données et utilise SignalR pour la communication en temps réel avec le frontend.
 
-## Objectifs du Projet
+## Structure du Projet
 
-Le projet vise à répondre aux objectifs suivants :
+- `backend/` : API en ASP.NET Core, avec gestion de la validation et du stockage des données JSON.
+- `frontend/` : Application Angular pour la visualisation et l’édition des données JSON.
+- `producerKafka/` : Script Python pour la génération de messages JSON, simulant un flux continu de données dans Kafka.
 
-1. **Backend** : Développer un système robuste pour consommer, stocker et traiter des messages JSON dans MongoDB, capable de gérer une haute fréquence de traitement (jusqu’à des milliers de messages par seconde).
-2. **Frontend** : Créer une interface Angular permettant de manipuler des messages JSON sous forme d’arborescence, avec des fonctionnalités d’édition et de structuration des données.
-3. **Kafka** : Assurer la transmission des messages JSON en temps réel vers le backend pour une insertion rapide dans MongoDB.
-4. **Mesos** : Utiliser Mesos pour orchestrer les services backend, Kafka et MongoDB, facilitant ainsi la gestion des ressources et l’extensibilité du système.
+## Prérequis
 
-## Technologies Utilisées
+- [.NET SDK](https://dotnet.microsoft.com/download)
+- [Node.js et npm](https://nodejs.org/)
+- [Kafka](https://kafka.apache.org/downloads) - Version recommandée : **kafka_2.13-3.9.0**
+- [MongoDB](https://www.mongodb.com/try/download/community) ou [MongoDB Compass](https://www.mongodb.com/try/download/compass)
+- [Python](https://www.python.org/downloads/) et `pip`
 
-- **Frontend** :
-  - **Angular** pour construire l'interface utilisateur permettant de visualiser et de manipuler des données JSON sous forme d’arborescence.
-  
-- **Backend** :
-  - **C# (ASP.NET Core)** pour la gestion des requêtes API et l'interaction avec MongoDB.
-  
-- **Base de données** :
-  - **MongoDB** pour le stockage des données JSON.
-  
-- **Messagerie en temps réel** :
-  - **Kafka** pour la transmission en temps réel des messages JSON entre le frontend et le backend.
-  
-- **Orchestration** :
-  - **Mesos** pour gérer les ressources des services backend, Kafka et MongoDB à grande échelle.
+## Installation et Exécution
 
-## Fonctionnalités
+### 1. Kafka
 
-- **Backend** :
-  - Validation et insertion des messages JSON dans MongoDB.
-  - API pour recevoir les messages JSON et les traiter.
-  
-- **Frontend** :
-  - Interface d’affichage des messages JSON sous forme d’arborescence.
-  - Fonctionnalités pour ajouter, modifier et supprimer des nœuds JSON.
-  
-- **Kafka** :
-  - Transmission des messages JSON en temps réel vers le backend pour traitement immédiat.
+Téléchargez Kafka depuis le lien ci-dessus, puis suivez les étapes ci-dessous. Les commandes sont fournies pour PowerShell et WSL.
 
-- **Mesos** :
-  - Orchestration des services backend, Kafka et MongoDB pour garantir la scalabilité.
+1. **Démarrer Zookeeper :**
+   - **PowerShell** : 
+     ```powershell
+     .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+     ```
+   - **WSL** : 
+     ```bash
+     bin/zookeeper-server-start.sh config/zookeeper.properties
+     ```
 
-## Instructions pour l'Exécution
+2. **Démarrer Kafka :**
+   - **PowerShell** : 
+     ```powershell
+     .\bin\windows\kafka-server-start.bat .\config\server.properties
+     ```
+   - **WSL** : 
+     ```bash
+     bin/kafka-server-start.sh config/server.properties
+     ```
 
-### Frontend
+3. **Créer le topic Kafka :**
+   - **PowerShell** : 
+     ```powershell
+     .\bin\windows\kafka-topics.bat --create --topic json-requests --bootstrap-server localhost:9092
+     ```
+   - **WSL** : 
+     ```bash
+     bin/kafka-topics.sh --create --topic json-requests --bootstrap-server localhost:9092
+     ```
 
-Pour démarrer l'application frontend, assurez-vous d'avoir installé les dépendances nécessaires :
+### 2. MongoDB
 
-```bash
-npm install
-```
+Créez une base de données MongoDB avec une collection pour stocker les données JSON.
 
-Ensuite, vous pouvez lancer l'application avec :
+1. **Ouvrir MongoDB** (avec MongoDB Compass ou via le terminal) :
+   - Créez une base de données nommée `CriteoProject`.
+   - Ajoutez une collection nommée `jsons` dans cette base de données.
 
-```bash
-npm start
-```
+### 3. Backend (.NET Core)
 
-L'application frontend sera accessible à l'adresse suivante : `http://localhost:4200`.
+1. **Naviguer dans le répertoire du backend** :
+   ```bash
+   cd backend
+   ```
 
-### Backend
+2. **Construire et exécuter le backend** :
+   ```bash
+   dotnet build
+   dotnet run
+   ```
+   L’API backend sera accessible sur `http://localhost:5000/api/tag/validate`.
 
-Pour démarrer le backend, suivez ces étapes :
+### 4. Producer Kafka (Script Python)
 
-```bash
-dotnet clean
-dotnet run
-```
+1. **Créer un environnement virtuel et installer les dépendances** :
+   ```bash
+   cd producerKafka
+   python -m venv venv
+   source venv/bin/activate  # Sur Windows, utilisez venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
 
-L'API backend sera accessible à l'adresse suivante : `http://localhost:5000/api/tag/validate`.
+2. **Exécuter le script** :
+   ```bash
+   python producerKafka.py
+   ```
 
-### Kafka
+Ce script envoie automatiquement des messages JSON au backend via Kafka pour alimenter la base de données.
 
-Pour simuler l'envoi de messages JSON, utilisez le script Python suivant :
+### 5. Frontend (Angular)
 
-```bash
-python producerKafka.py
-```
+1. **Naviguer dans le répertoire du frontend** :
+   ```bash
+   cd frontend/frontend-app
+   ```
 
-### Mesos
+2. **Installer les dépendances** :
+   ```bash
+   npm install
+   ```
 
-L'orchestration via Mesos est configurée pour gérer les ressources des services backend, Kafka et MongoDB. Assurez-vous que Mesos est installé et configuré avant de procéder aux tests de charge.
+3. **Lancer le frontend** :
+   ```bash
+   npm start
+   ```
+   Le frontend sera accessible sur `http://localhost:4200/`.
 
-## Ce que vous avez réalisé
+---
 
-1. **Mise en place de MongoDB** :
-   - Installation et configuration locale de MongoDB.
-   - Création d'une base de données `CriteoProject` et connexion avec le backend pour le stockage des messages JSON.
+## Résumé des Commandes
 
-2. **Développement du backend en C# (ASP.NET Core)** :
-   - Création du service `TagService` pour l'interaction avec MongoDB, incluant des fonctions de validation et d'insertion des JSON.
-   - Développement du contrôleur `TagController` pour gérer les requêtes API et insérer les messages JSON dans MongoDB.
-   - Tests pour s’assurer que le backend reçoit et stocke correctement les messages JSON.
+| Étape            | Commande (PowerShell)                                                                                              | Commande (WSL)                                           |
+|------------------|--------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
+| Démarrer Zookeeper  | `.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties`                                          | `bin/zookeeper-server-start.sh config/zookeeper.properties` |
+| Démarrer Kafka      | `.\bin\windows\kafka-server-start.bat .\config\server.properties`                                                | `bin/kafka-server-start.sh config/server.properties`      |
+| Créer le topic Kafka | `.\bin\windows\kafka-topics.bat --create --topic json-requests --bootstrap-server localhost:9092`                 | `bin/kafka-topics.sh --create --topic json-requests --bootstrap-server localhost:9092` |
+| Construire et démarrer le backend | `dotnet build`, `dotnet run` | Idem |
+| Installer les dépendances frontend | `npm install` | Idem |
+| Démarrer le frontend | `npm start` | Idem |
+| Exécuter le script Python | `python producerKafka.py` | Idem |
 
-3. **Simulation de données avec Kafka** :
-   - Création d'un script `producerKafka.py` pour simuler l'envoi continu de messages JSON au backend.
-   - Tests basiques d'envoi de messages toutes les 2 secondes pour valider la résilience du système.
+---
 
-## Ce qu'il reste à faire
+## Auteurs
 
-### 1. Finaliser l'interface Angular
-
-- **Objectif** : Développer une interface utilisateur sous forme d’arborescence pour afficher et manipuler les messages JSON.
-- **Actions** :
-  - Afficher les données JSON sous forme d'arborescence.
-  - Ajouter la possibilité d’éditer les nœuds JSON (ajout, modification, suppression).
-  - Mettre en place une interface utilisateur simple et intuitive pour valider l’intégrité des modifications avant envoi au backend.
-
-### 2. Intégrer Kafka pour la transmission des données en temps réel
-
-- **Objectif** : Intégrer Kafka pour envoyer les messages JSON en temps réel vers le backend.
-- **Actions** :
-  - Configurer Kafka pour transmettre les messages JSON.
-  - Modifier le backend pour écouter et consommer les messages en temps réel via Kafka.
-  - Effectuer des tests pour vérifier la rapidité et l'exactitude du traitement des messages.
-
-### 3. Orchestration avec Mesos
-
-- **Objectif** : Orchestrer les services via Mesos pour une gestion efficace des ressources.
-- **Actions** :
-  - Configurer Mesos pour orchestrer le backend, MongoDB et Kafka.
-  - Tester la scalabilité du système sous charge importante de messages JSON.
-
-### 4. Améliorer la qualité des données dans MongoDB
-
-- **Objectif** : Assurer la qualité et l'intégrité des données stockées.
-- **Actions** :
-  - Mettre en place des validations plus complexes pour le format et la structure des JSON.
-  - Ajouter un processus de vérification pour détecter les données indésirables (frauduleuses ou inutiles).
-
-### 5. Tests finaux et documentation
-
-- **Objectif** : Vérifier l'ensemble des fonctionnalités et préparer l'application pour un déploiement en production.
-- **Actions** :
-  - Exécuter des tests de bout en bout.
-  - Documenter le code et les configurations.
-  - Préparer le déploiement en production, incluant les scripts d'installation et la gestion des configurations.
+Développé par **Samy Hadj-Said** dans le cadre d’une candidature pour un poste de **Software Engineer Intern** chez Criteo.
