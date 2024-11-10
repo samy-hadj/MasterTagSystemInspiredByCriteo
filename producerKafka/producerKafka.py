@@ -1,52 +1,42 @@
-# import kafka
-# print(kafka.__file__)
-# from kafka import KafkaProducer
-
-# import json
-# import time
-
-# # Configuration du producteur Kafka
-# producer = KafkaProducer(bootstrap_servers='localhost:9092',
-#                          value_serializer=lambda v: json.dumps(v).encode('utf-8'))
-
-# # Simulation d'envoi de JSON en masse
-# for i in range(1000):  # Exemple : envoie de 1000 messages
-#     data = {"id": i, "value": f"message-{i}"}
-#     producer.send('json-requests', value=data)
-#     time.sleep(0.01)  # Délai de 10 ms pour simuler un débit élevé
-
-
-#FAKE PRODUCER
-import requests
+from kafka import KafkaProducer
 import json
 import time
 import random
 import string
 
-# URL de l'API de ton backend
-url = 'http://localhost:5000/api/tag/validate'  # Remplace par l'URL de ton backend C#
+# Callback en cas de succès d'envoi de message
+def on_send_success(record_metadata):
+    print(f"Message envoyé avec succès à partition {record_metadata.partition}, offset {record_metadata.offset}.")
+
+# Callback en cas d'erreur d'envoi de message
+def on_send_error(excp):
+    print(f"Erreur lors de l'envoi du message : {excp}")
+
+# Création du producteur Kafka avec sérialisation JSON
+producer = KafkaProducer(
+    bootstrap_servers='localhost:9092',
+    value_serializer=lambda v: json.dumps(v).encode('utf-8')
+)
 
 # Fonction pour générer des données JSON avec un ID aléatoire
 def generate_data():
-    random_id = ''.join(random.choices(string.ascii_letters + string.digits, k=16))  # Génère un ID aléatoire
+    random_id = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
     return {
-        "id": random_id, 
-        "destinationUrl": "https://example.com", 
+        "id": random_id,
+        "destinationUrl": "https://example.com",
         "trackingData": "some tracking data"
     }
 
-# Envoi de JSON toutes les 4 secondes
+# Envoi de données toutes les 4 secondes avec des logs de succès/erreur
 while True:
     data = generate_data()
-    print(f"Envoi de message : {data}")
+    print(f"Envoi du message : {data}")
 
-    # Envoi de la requête POST au backend
-    response = requests.post(url, json=data)
-
-    # Affiche la réponse du backend
-    if response.status_code == 200:
-        print(f"Réponse du serveur : {response.json()}")
-    else:
-        print("Erreur dans l'envoi du message", response)
-
-    time.sleep(4)  # Envoi toutes les 4 secondes
+    # Envoi du message au topic Kafka
+    future = producer.send('json-requests', value=data)
+    future.add_callback(on_send_success).add_errback(on_send_error)  # Ajoute les callbacks pour le succès et l'erreur
+    
+    # Forcer l'envoi immédiat
+    producer.flush()
+    
+    time.sleep(5)  # Envoi toutes les 4 secondes
