@@ -16,7 +16,12 @@
               class="data-cell"
               [matTooltip]="tag.trackingData.length > 20 ? tag.trackingData : ''"
               matTooltipPosition="above">
-              {{ tag.trackingData.length > 20 ? (tag.trackingData | slice:0:20) + '...' : tag.trackingData }}
+             <span
+                class="data-cell"
+                [matTooltip]="formatTrackingData(tag.trackingData).length > 20 ? formatTrackingData(tag.trackingData) : ''"
+                matTooltipPosition="above">
+                {{ formatTrackingData(tag.trackingData).length > 20 ? (formatTrackingData(tag.trackingData) | slice:0:20) + '...' : formatTrackingData(tag.trackingData) }}
+             </span>
             </span>
           </td>
         </tr>

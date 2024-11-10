@@ -16,7 +16,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     // Récupérer les données via le service TagService
     this.tagService.getTagData().subscribe(data => {
-      this.parsedJson = data;
+      this.parsedJson = data[1];
+      console.log('Données JSON analysées:', this.parsedJson);
       this.jsonContent = JSON.stringify(this.parsedJson, null, 2);  // Formatage du JSON en chaîne
     }, error => {
       console.error('Erreur de récupération des données:', error);

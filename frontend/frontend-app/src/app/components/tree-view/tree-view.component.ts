@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { TreeDataService } from '../../services/tree-data.service';
 
 interface TreeNode {
   name: string;
@@ -19,16 +18,14 @@ interface FlatNode {
   templateUrl: './tree-view.component.html',
   styleUrls: ['./tree-view.component.css']
 })
-export class TreeViewComponent implements OnInit, OnChanges {
-  @Input() jsonData: any; // Prend la donnée transmise depuis le parent
+export class TreeViewComponent implements OnChanges {
+  @Input() jsonData: any;
 
-  private transformer = (node: TreeNode, level: number) => {
-    return {
-      expandable: !!node.children && node.children.length > 0,
-      name: node.name,
-      level: level,
-    };
-  };
+  private transformer = (node: TreeNode, level: number) => ({
+    expandable: !!node.children && node.children.length > 0,
+    name: node.name,
+    level: level,
+  });
 
   treeControl = new FlatTreeControl<FlatNode>(
     node => node.level,
@@ -44,21 +41,29 @@ export class TreeViewComponent implements OnInit, OnChanges {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private treeDataService: TreeDataService) {}
-
-  ngOnInit() {
-    if (this.jsonData) {
-      console.log('Données JSON:', this.jsonData);
-      this.dataSource.data = this.jsonData;  // Charger les données JSON dans l'arbre
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['jsonData'] && changes['jsonData'].currentValue) {
+      this.dataSource.data = this.buildTreeStructure(this.jsonData);
+      console.log('Données JSON transformées en arborescence:', this.dataSource.data);
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['jsonData']) {  // Utilisation des crochets pour accéder à la propriété jsonData
-      if (this.jsonData) {
-        this.dataSource.data = this.jsonData;
+  buildTreeStructure(obj: any): TreeNode[] {
+    const buildNode = (value: any, key: string = ''): TreeNode => {
+      if (typeof value === 'object' && value !== null) {
+        const children = Array.isArray(value)
+          ? value.map((v, i) => buildNode(v, `Item ${i + 1}`))
+          : Object.entries(value).map(([k, v]) => buildNode(v, k));
+        return { name: key, children };
+      } else {
+        return { name: `${key}: ${value}` };
       }
-    }
+    };
+
+    // Directly return the JSON data as an array of TreeNode without an extra root node
+    return Array.isArray(obj)
+      ? obj.map((item, index) => buildNode(item, `Item ${index + 1}`))
+      : Object.entries(obj).map(([key, value]) => buildNode(value, key));
   }
 
   hasChild = (_: number, node: FlatNode) => node.expandable;

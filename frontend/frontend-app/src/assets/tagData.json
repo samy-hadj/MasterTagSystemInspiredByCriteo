@@ -5,10 +5,28 @@
       "trackingData": "Category: Animals, Subcategory: Mammals"
     },
     {
-      "id": "2",
-      "destinationUrl": "https://example.com/Animals/Birds",
-      "trackingData": "Category: Animals, Subcategory: Birds"
-    },
+        "id": "12345",
+        "destinationUrl": "https://exemple.com",
+        "trackingData": {
+          "userId": "67890",
+          "sessionId": "abcdef",
+          "actions": [
+            {
+              "action": "click",
+              "timestamp": "2024-11-10T14:23:00Z"
+            },
+            {
+              "action": "view",
+              "timestamp": "2024-11-10T14:25:00Z"
+            },
+            {
+              "action": "purchase",
+              "timestamp": "2024-11-10T14:30:00Z",
+              "amount": 29.99
+            }
+          ]
+        }
+      },      
     {
       "id": "3",
       "destinationUrl": "https://example.com/Animals/Reptiles",

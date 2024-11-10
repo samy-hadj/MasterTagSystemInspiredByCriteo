@@ -1,16 +1,15 @@
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree-view">
-    <!-- Nœud avec enfant -->
-    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" [style.paddingLeft.px]="node.level * 20">
-      <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
-        <mat-icon>{{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}</mat-icon>
-      </button>
-      <span class="node-name">{{node.name}}</span>
-    </mat-tree-node>
-  
-    <!-- Nœud sans enfant -->
-    <mat-tree-node *matTreeNodeDef="let node" [style.paddingLeft.px]="node.level * 20">
-      <button mat-icon-button disabled></button>
-      <span class="node-name">{{node.name}}</span>
-    </mat-tree-node>
-  </mat-tree>
-  
+  <!-- Nœud avec enfant -->
+  <mat-tree-node *matTreeNodeDef="let node; when: hasChild" [style.paddingLeft.px]="node.level * 20">
+    <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+      <mat-icon>{{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}</mat-icon>
+    </button>
+    <span class="node-name">{{node.name}}</span>
+  </mat-tree-node>
+
+  <!-- Nœud sans enfant -->
+  <mat-tree-node *matTreeNodeDef="let node" [style.paddingLeft.px]="node.level * 20">
+    <button mat-icon-button disabled></button>
+    <span class="node-name">{{node.name}}</span>
+  </mat-tree-node>
+</mat-tree>

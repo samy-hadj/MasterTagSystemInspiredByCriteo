@@ -10,7 +10,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { TreeDataService } from './services/tree-data.service';
 import { InfoTableComponent } from './components/info-table/info-table.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -33,7 +32,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     BrowserModule,
     MatTooltipModule,
   ],
-  providers: [TreeDataService],  // Assurez-vous d'ajouter ce service ici
+  providers: [],  // Assurez-vous d'ajouter ce service ici
   bootstrap: [AppComponent],
 })
 export class AppModule { }

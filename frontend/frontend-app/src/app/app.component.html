@@ -12,7 +12,7 @@
         <app-tag-editor [jsonContent]="jsonContent" (jsonChange)="onJsonChange($event)"></app-tag-editor>
       </div>
       <div class="tree-view-container">
-        <app-tree-view [jsonData]="parsedJson"></app-tree-view>
+        <app-tree-view [jsonData]="this.parsedJson"></app-tree-view>
       </div>
     </div>
   </div>

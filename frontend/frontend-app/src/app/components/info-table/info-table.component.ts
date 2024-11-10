@@ -36,6 +36,7 @@ export class InfoTableComponent implements OnInit {
       }
     );    
   }
+  
 
   private loadInitialData(): void {
     console.log('Loading initial data');
@@ -57,4 +58,9 @@ export class InfoTableComponent implements OnInit {
       }
     );
   }
+
+  formatTrackingData(data: any): string {
+    return typeof data === 'object' ? JSON.stringify(data) : data;
+  }
+  
 }
