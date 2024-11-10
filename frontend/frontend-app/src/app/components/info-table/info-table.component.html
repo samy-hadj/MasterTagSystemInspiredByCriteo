@@ -1,12 +1,15 @@
 <div class="info-table-container">
     <h3 class="table-title">5 latest validated tags in real time</h3>
-
+  
     <table class="info-table">
       <thead>
         <tr>
           <th>ID</th>
           <th>Destination URL</th>
           <th>Tracking Data</th>
+          <th>Click Count</th>
+          <th>Session ID</th>
+          <th>Referrer</th>
         </tr>
       </thead>
       <tbody>
@@ -21,10 +24,13 @@
               {{ formatTrackingData(tag.trackingData).length > 20 ? (formatTrackingData(tag.trackingData) | slice:0:20) + '...' : formatTrackingData(tag.trackingData) }}
             </span>
           </td>
+          <td>{{ tag.clickCount ?? 'N/A' }}</td> <!-- Affiche 'N/A' si clickCount est manquant -->
+          <td>{{ tag.sessionId ?? 'N/A' }}</td>  <!-- Affiche 'N/A' si sessionId est manquant -->
+          <td>{{ tag.referrer ?? 'N/A' }}</td>   <!-- Affiche 'N/A' si referrer est manquant -->
         </tr>
       </tbody>
     </table>
-    
+  
     <p *ngIf="jsonList.length === 0" class="empty-message">Aucun JSON à afficher.</p>
   </div>
   

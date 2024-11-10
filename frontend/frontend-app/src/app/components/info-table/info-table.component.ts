@@ -9,7 +9,7 @@ import { TagModel } from '../../models/tagModel.model';
 })
 export class InfoTableComponent implements OnInit {
   @Input() jsonList: TagModel[] = [];
-  @Output() jsonSelected = new EventEmitter<any>();  // Nouvel événement
+  @Output() jsonSelected = new EventEmitter<TagModel>();  // Nouvel événement de type TagModel
 
   constructor(private tagService: TagService) {}
 
@@ -18,24 +18,21 @@ export class InfoTableComponent implements OnInit {
     this.tagService.getRealTimeJsonData().subscribe(
       (jsonData: TagModel) => {
         console.log('Received real-time JSON data:', jsonData);
-  
-        // Ajouter en début de liste sans remplacer les autres éléments
-        this.jsonList.unshift(jsonData); 
-  
+        this.jsonList.unshift(jsonData); // Ajouter en début de liste sans remplacer les autres éléments
         console.log('Updated JSON list:', this.jsonList);
       },
       (error) => {
         console.error('Error receiving real-time JSON data:', error);
       }
-    );    
+    );
   }
-  
 
   // Sélectionner un JSON
   selectJson(json: TagModel): void {
     this.jsonSelected.emit(json);  // Émettre l'événement avec le JSON sélectionné
   }
 
+  // Formater les données de suivi en JSON si elles sont en format objet
   formatTrackingData(data: any): string {
     return typeof data === 'object' ? JSON.stringify(data) : data;
   }
