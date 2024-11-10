@@ -2,58 +2,60 @@ using MongoDB.Driver;
 using MasterTagSystem.Models;
 using Microsoft.AspNetCore.SignalR;
 using MasterTagSystem.Hubs;
+using System;
+using System.Collections.Generic;
 
-public class TagService
+namespace MasterTagSystem.Services
 {
-    private readonly IMongoCollection<TagModel> _jsonCollection;
-    private readonly IHubContext<JsonHub> _hubContext;
-
-    public TagService(IMongoDatabase database, IHubContext<JsonHub> hubContext)
+    public class TagService
     {
-        _jsonCollection = database.GetCollection<TagModel>("jsons");
-        _hubContext = hubContext;
-    }
+        private readonly IMongoCollection<TagModel> _jsonCollection;
+        private readonly IHubContext<JsonHub> _hubContext;
 
-    public bool ValidateTag(TagModel tag)
-    {
-        try
+        public TagService(IMongoDatabase database, IHubContext<JsonHub> hubContext)
         {
-            if (string.IsNullOrEmpty(tag.id) || !Uri.IsWellFormedUriString(tag.destinationUrl, UriKind.Absolute))
+            _jsonCollection = database.GetCollection<TagModel>("jsons");
+            _hubContext = hubContext;
+        }
+
+        public bool ValidateTag(TagModel tag)
+        {
+            try
             {
-                Console.WriteLine("Validation échouée : ID ou URL invalide");
+                if (string.IsNullOrEmpty(tag.id) || !Uri.IsWellFormedUriString(tag.destinationUrl, UriKind.Absolute))
+                {
+                    Console.WriteLine("Validation échouée : ID ou URL invalide");
+                    return false;
+                }
+
+                _jsonCollection.InsertOne(tag);
+                Console.WriteLine("Insertion réussie : " + tag);
+
+                // Envoie les nouvelles données JSON aux clients connectés
+                _hubContext.Clients.All.SendAsync("ReceiveJsonUpdate", tag);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de l'insertion : {ex.Message}");
                 return false;
             }
-
-            _jsonCollection.InsertOne(tag);
-            Console.WriteLine("Insertion réussie : " + tag);
-
-            // Envoie les nouvelles données JSON aux clients connectés
-            _hubContext.Clients.All.SendAsync("ReceiveJsonUpdate", tag);
-
-            return true;
         }
-        catch (Exception ex)
+
+        public List<TagModel> GetAllTags()
         {
-            Console.WriteLine($"Erreur lors de l'insertion : {ex.Message}");
-            return false;
+            try
+            {
+                return _jsonCollection.Find(FilterDefinition<TagModel>.Empty).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la récupération des tags : {ex.Message}");
+                return new List<TagModel>();
+            }
         }
-    }
 
-    // Ajout de la fonction GetAllTags pour récupérer tous les JSONs
-    public List<TagModel> GetAllTags()
-    {
-        try
-        {
-            return _jsonCollection.Find(FilterDefinition<TagModel>.Empty).ToList();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Erreur lors de la récupération des tags : {ex.Message}");
-            return new List<TagModel>(); // Retourne une liste vide en cas d'erreur
-        }
-    }
-
-            // Nouvelle méthode pour mettre à jour un tag existant
         public bool UpdateTag(string id, TagModel updatedTag)
         {
             try
@@ -68,7 +70,6 @@ public class TagService
 
                 if (result.ModifiedCount > 0)
                 {
-                    // Envoie les données mises à jour aux clients connectés
                     _hubContext.Clients.All.SendAsync("ReceiveJsonUpdate", updatedTag);
                     return true;
                 }
@@ -84,4 +85,5 @@ public class TagService
                 return false;
             }
         }
+    }
 }

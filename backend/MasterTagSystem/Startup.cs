@@ -1,5 +1,12 @@
 using MongoDB.Driver;
 using MasterTagSystem.Hubs;
+using MasterTagSystem.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
 
 namespace MasterTagSystem
 {
@@ -15,37 +22,28 @@ namespace MasterTagSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<TagService>();
+            services.AddScoped<TagService>();  // Enregistrer TagService
+
+            // Enregistrer KafkaConsumerService en tant que service hébergé
+            services.AddHostedService<KafkaConsumerService>();
 
             // Configuration MongoDB
-            var mongoConnectionString = "mongodb://localhost:27017"; // Connexion à MongoDB
+            var mongoConnectionString = "mongodb://localhost:27017";
             var mongoClient = new MongoClient(mongoConnectionString);
-            var mongoDatabase = mongoClient.GetDatabase("CriteoProject"); // Nom de la base de données
+            var mongoDatabase = mongoClient.GetDatabase("CriteoProject");
+            services.AddSingleton(mongoDatabase);
 
-            // Test de la connexion MongoDB
-            try
-            {
-                mongoClient.ListDatabases(); // Cette commande va tester la connexion
-                Console.WriteLine("Connexion MongoDB réussie !");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erreur de connexion MongoDB : {ex.Message}");
-            }
-
-            services.AddSingleton(mongoDatabase); // Injection de la base MongoDB
-
-            // Ajouter SignalR
-            services.AddSignalR(); // Ajoutez SignalR ici
+            // Configuration de SignalR
+            services.AddSignalR();
 
             // Configuration CORS pour autoriser l'accès depuis le frontend Angular
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder.WithOrigins("http://localhost:4200") // URL du frontend
-                                    .AllowAnyHeader()
-                                    .AllowAnyMethod()
-                                    .AllowCredentials()); // Autoriser les cookies
+                    builder => builder.WithOrigins("http://localhost:4200")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod()
+                                      .AllowCredentials());
             });
         }
 
@@ -64,7 +62,7 @@ namespace MasterTagSystem
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<JsonHub>("/jsonHub"); // Ajoutez le mapping pour le hub
+                endpoints.MapHub<JsonHub>("/jsonHub"); // Mapping pour le hub
             });
         }
     }
