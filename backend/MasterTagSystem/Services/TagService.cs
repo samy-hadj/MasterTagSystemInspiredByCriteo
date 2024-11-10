@@ -38,4 +38,18 @@ public class TagService
             return false;
         }
     }
+
+    // Ajout de la fonction GetAllTags pour récupérer tous les JSONs
+    public List<TagModel> GetAllTags()
+    {
+        try
+        {
+            return _jsonCollection.Find(FilterDefinition<TagModel>.Empty).ToList();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la récupération des tags : {ex.Message}");
+            return new List<TagModel>(); // Retourne une liste vide en cas d'erreur
+        }
+    }
 }

@@ -20,5 +20,13 @@ namespace MasterTagSystem.Controllers
             var isValid = _tagService.ValidateTag(tag); // Valide et ajoute dans MongoDB
             return Ok(new { isValid });
         }
+
+        // Nouvelle méthode GET pour récupérer tous les JSONs
+        [HttpGet("tags")]
+        public IActionResult GetAllTags()
+        {
+            var tags = _tagService.GetAllTags(); // Récupère tous les tags JSONs depuis MongoDB
+            return Ok(tags);
+        }
     }
 }
