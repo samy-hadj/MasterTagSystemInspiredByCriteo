@@ -35,10 +35,11 @@
 
 /* Ajout d'une animation au survol */
 .header:hover {
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Ombre plus forte au survol */
-  transform: translateY(-5px); /* Légèrement décalé vers le haut pour un effet de flottement */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); /* Ombre plus forte au survol */
+  /* transform: translateY(-5px); Légèrement décalé vers le haut pour un effet de flottement */
 }
 
 .header h1:hover {
   color: #f1f1f1; /* Change la couleur du titre lors du survol pour un effet interactif */
+  /* transform: scale(1.05); Effet d'agrandissement du titre au survol */
 }
