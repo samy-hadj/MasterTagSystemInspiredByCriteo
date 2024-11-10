@@ -18,13 +18,44 @@ producer = KafkaProducer(
     value_serializer=lambda v: json.dumps(v).encode('utf-8')
 )
 
-# Fonction pour générer des données JSON avec un ID aléatoire
+# Fonction pour générer des données JSON complexes avec des valeurs variées
 def generate_data():
+    # ID aléatoire
     random_id = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
+
+    # Probabilités d'invalidité de certaines valeurs
+    destination_url = "https://example.com" if random.random() > 0.2 else "invalid_url"
+    tracking_data = "some tracking data" if random.random() > 0.3 else ""
+    click_count = random.randint(0, 1000) if random.random() > 0.5 else None
+    session_id = ''.join(random.choices(string.ascii_letters + string.digits, k=8)) if random.random() > 0.3 else None
+    referrer = "https://referrer.com" if random.random() > 0.6 else None
+
+    # Ajout d'un champ 'details' avec des sous-éléments
+    details = {
+        "userInfo": {
+            "age": random.randint(18, 65),
+            "location": random.choice(["USA", "France", "Germany", "India"]),
+            "preferences": {
+                "theme": random.choice(["dark", "light"]),
+                "language": random.choice(["English", "French", "German"])
+            }
+        },
+        "activity": {
+            "lastLogin": f"{random.randint(1, 12)}/{random.randint(1, 28)}/2024",
+            "pagesVisited": random.randint(1, 100),
+            "actions": ["click", "scroll", "navigate"][random.randint(0, 2)]
+        }
+    }
+
+    # Données JSON complexes
     return {
         "id": random_id,
-        "destinationUrl": "https://example.com",
-        "trackingData": "some tracking data"
+        "destinationUrl": destination_url,
+        "trackingData": tracking_data,
+        "clickCount": click_count,
+        "sessionId": session_id,
+        "referrer": referrer,
+        "details": details  # Ajout du champ avec des enfants
     }
 
 # Envoi de données toutes les 4 secondes avec des logs de succès/erreur
@@ -39,4 +70,4 @@ while True:
     # Forcer l'envoi immédiat
     producer.flush()
     
-    time.sleep(5)  # Envoi toutes les 4 secondes
+    time.sleep(3)  # Envoi toutes les 5 secondes
