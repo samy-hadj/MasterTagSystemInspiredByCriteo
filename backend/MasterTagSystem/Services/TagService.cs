@@ -22,9 +22,28 @@ namespace MasterTagSystem.Services
         {
             try
             {
-                if (string.IsNullOrEmpty(tag.id) || !Uri.IsWellFormedUriString(tag.destinationUrl, UriKind.Absolute))
+                // Validation des champs
+                if (string.IsNullOrEmpty(tag.id))
                 {
-                    Console.WriteLine("Validation échouée : ID ou URL invalide");
+                    Console.WriteLine("Validation échouée : ID manquant.");
+                    return false;
+                }
+
+                if (string.IsNullOrEmpty(tag.destinationUrl) || !Uri.IsWellFormedUriString(tag.destinationUrl, UriKind.Absolute))
+                {
+                    Console.WriteLine("Validation échouée : URL invalide.");
+                    return false;
+                }
+
+                if (string.IsNullOrEmpty(tag.trackingData))
+                {
+                    Console.WriteLine("Validation échouée : données de suivi manquantes.");
+                    return false;
+                }
+
+                if (tag.clickCount == null || tag.sessionId == null)
+                {
+                    Console.WriteLine("Validation échouée : informations de session ou clickCount manquantes.");
                     return false;
                 }
 
@@ -64,7 +83,10 @@ namespace MasterTagSystem.Services
                 var update = Builders<TagModel>.Update
                     .Set(t => t.id, updatedTag.id)
                     .Set(t => t.destinationUrl, updatedTag.destinationUrl)
-                    .Set(t => t.trackingData, updatedTag.trackingData);
+                    .Set(t => t.trackingData, updatedTag.trackingData)
+                    .Set(t => t.clickCount, updatedTag.clickCount)
+                    .Set(t => t.sessionId, updatedTag.sessionId)
+                    .Set(t => t.referrer, updatedTag.referrer);
 
                 var result = _jsonCollection.UpdateOne(filter, update);
 
