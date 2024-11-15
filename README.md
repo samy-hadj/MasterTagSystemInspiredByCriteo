@@ -2,160 +2,154 @@
 
 ## Description
 
-MasterTagSystem est une application de gestion et de traitement en temps réel de données JSON, avec un backend en C# (ASP.NET Core) pour le stockage et la validation, un frontend en Angular pour la visualisation et l'édition des données, et Kafka pour le streaming de messages. La solution inclut MongoDB pour le stockage des données et utilise SignalR pour la communication en temps réel avec le frontend.
+MasterTagSystem is a real-time JSON data management and processing application, featuring a C# (ASP.NET Core) backend for storage and validation, an Angular frontend for data visualization and editing, and Kafka for message streaming. The solution includes MongoDB for data storage and uses SignalR for real-time communication with the frontend.
 
-## Interface Utilisateur
+## User Interface
 
-L'interface est accessible sur `http://localhost:4200`. Voici un aperçu des fonctionnalités :
+The interface is accessible at `http://localhost:4200`. Here are some screenshots of the interface:
 
-![Dashboard principal](./assets/1.png)
-*Vue principale du dashboard montrant le flux de données JSON en temps réel*
+![Screenshot 1](./assets/1.png)
+![Screenshot 2](./assets/4.png)
+![Screenshot 3](./assets/3.png)
 
-![Interface d'édition3](./assets/4.png)
-*Interface d'édition et de validation des données JSON*
+## Project Structure
 
-![Dashboard principal2](./assets/3.png)
-*Vue principale du dashboard montrant le flux de données JSON en temps réel*
+- `backend/`: ASP.NET Core API, handling JSON data validation and storage.
+- `frontend/`: Angular application for JSON data visualization and editing.
+- `producerKafka/`: Python script for generating JSON messages, simulating a continuous data flow in Kafka.
 
+## Quick Installation with Docker
 
-## Structure du Projet
-
-- `backend/` : API en ASP.NET Core, avec gestion de la validation et du stockage des données JSON.
-- `frontend/` : Application Angular pour la visualisation et l'édition des données JSON.
-- `producerKafka/` : Script Python pour la génération de messages JSON, simulant un flux continu de données dans Kafka.
-
-## Installation Rapide avec Docker
-
-La façon la plus simple de démarrer l'application est d'utiliser Docker :
+The simplest way to start the application is to use Docker:
 
 ```bash
 docker compose up --build
 ```
 
-Cette commande va construire et démarrer tous les services nécessaires (Backend, Frontend, Kafka, Zookeeper, MongoDB, Producer).
+This command will build and start all necessary services (Backend, Frontend, Kafka, Zookeeper, MongoDB, Producer).
 
-## Installation Manuelle (Alternative)
+## Manual Installation (Alternative)
 
-Si vous préférez une installation manuelle, voici les prérequis et les étapes à suivre :
+If you prefer a manual installation, here are the prerequisites and steps to follow:
 
-### Prérequis
+### Prerequisites
 
 - [.NET SDK](https://dotnet.microsoft.com/download)
-- [Node.js et npm](https://nodejs.org/)
-- [Kafka](https://kafka.apache.org/downloads) - Version recommandée : **kafka_2.13-3.9.0**
-- [MongoDB](https://www.mongodb.com/try/download/community) ou [MongoDB Compass](https://www.mongodb.com/try/download/compass)
-- [Python](https://www.python.org/downloads/) et `pip`
+- [Node.js and npm](https://nodejs.org/)
+- [Kafka](https://kafka.apache.org/downloads) - Recommended version: **kafka_2.13-3.9.0**
+- [MongoDB](https://www.mongodb.com/try/download/community) or [MongoDB Compass](https://www.mongodb.com/try/download/compass)
+- [Python](https://www.python.org/downloads/) and `pip`
 
-### Installation et Exécution
+### Installation and Setup
 
 ### 1. Kafka
 
-Téléchargez Kafka depuis le lien ci-dessus, puis suivez les étapes ci-dessous. Les commandes sont fournies pour PowerShell et WSL.
+Download Kafka from the link above, then follow the steps below. Commands are provided for both PowerShell and WSL.
 
-1. **Démarrer Zookeeper :**
-   - **PowerShell** : 
+1. **Start Zookeeper:**
+   - **PowerShell**: 
      ```powershell
      .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
      ```
-   - **WSL** : 
+   - **WSL**: 
      ```bash
      bin/zookeeper-server-start.sh config/zookeeper.properties
      ```
 
-2. **Démarrer Kafka :**
-   - **PowerShell** : 
+2. **Start Kafka:**
+   - **PowerShell**: 
      ```powershell
      .\bin\windows\kafka-server-start.bat .\config\server.properties
      ```
-   - **WSL** : 
+   - **WSL**: 
      ```bash
      bin/kafka-server-start.sh config/server.properties
      ```
 
-3. **Créer le topic Kafka :**
-   - **PowerShell** : 
+3. **Create Kafka Topic:**
+   - **PowerShell**: 
      ```powershell
      .\bin\windows\kafka-topics.bat --create --topic json-requests --bootstrap-server localhost:9092
      ```
-   - **WSL** : 
+   - **WSL**: 
      ```bash
      bin/kafka-topics.sh --create --topic json-requests --bootstrap-server localhost:9092
      ```
 
 ### 2. MongoDB
 
-Créez une base de données MongoDB avec une collection pour stocker les données JSON.
+Create a MongoDB database with a collection to store JSON data.
 
-1. **Ouvrir MongoDB** (avec MongoDB Compass ou via le terminal) :
-   - Créez une base de données nommée `CriteoProject`.
-   - Ajoutez une collection nommée `jsons` dans cette base de données.
+1. **Open MongoDB** (using MongoDB Compass or terminal):
+   - Create a database named `CriteoProject`
+   - Add a collection named `jsons` in this database
 
 ### 3. Backend (.NET Core)
 
-1. **Naviguer dans le répertoire du backend** :
+1. **Navigate to the backend directory**:
    ```bash
    cd backend
    ```
 
-2. **Construire et exécuter le backend** :
+2. **Build and run the backend**:
    ```bash
    dotnet build
    dotnet run
    ```
-   L'API backend sera accessible sur `http://localhost:5000/api/tag/validate`.
+   The backend API will be accessible at `http://localhost:5000/api/tag/validate`.
 
-### 4. Producer Kafka (Script Python)
+### 4. Kafka Producer (Python Script)
 
-1. **Créer un environnement virtuel et installer les dépendances** :
+1. **Create a virtual environment and install dependencies**:
    ```bash
    cd producerKafka
    python -m venv venv
-   source venv/bin/activate  # Sur Windows, utilisez venv\Scripts\activate
+   source venv/bin/activate  # On Windows, use venv\Scripts\activate
    pip install -r requirements.txt
    ```
 
-2. **Exécuter le script** :
+2. **Run the script**:
    ```bash
    python producerKafka.py
    ```
 
-Ce script envoie automatiquement des messages JSON au backend via Kafka pour alimenter la base de données.
+This script automatically sends JSON messages to the backend via Kafka to populate the database.
 
 ### 5. Frontend (Angular)
 
-1. **Naviguer dans le répertoire du frontend** :
+1. **Navigate to the frontend directory**:
    ```bash
    cd frontend/frontend-app
    ```
 
-2. **Installer les dépendances** :
+2. **Install dependencies**:
    ```bash
    npm install
    ```
 
-3. **Lancer le frontend** :
+3. **Launch the frontend**:
    ```bash
    npm start
    ```
-   Le frontend sera accessible sur `http://localhost:4200/`.
+   The frontend will be accessible at `http://localhost:4200/`.
 
 ---
 
-## Résumé des Commandes
+## Command Summary
 
-| Étape            | Commande (PowerShell)                                                                                              | Commande (WSL)                                           |
+| Step             | Command (PowerShell)                                                                                              | Command (WSL)                                           |
 |------------------|--------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
-| Installation Docker | `docker compose up --build` | Idem |
-| Démarrer Zookeeper  | `.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties`                                          | `bin/zookeeper-server-start.sh config/zookeeper.properties` |
-| Démarrer Kafka      | `.\bin\windows\kafka-server-start.bat .\config\server.properties`                                                | `bin/kafka-server-start.sh config/server.properties`      |
-| Créer le topic Kafka | `.\bin\windows\kafka-topics.bat --create --topic json-requests --bootstrap-server localhost:9092`                 | `bin/kafka-topics.sh --create --topic json-requests --bootstrap-server localhost:9092` |
-| Construire et démarrer le backend | `dotnet build`, `dotnet run` | Idem |
-| Installer les dépendances frontend | `npm install` | Idem |
-| Démarrer le frontend | `npm start` | Idem |
-| Exécuter le script Python | `python producerKafka.py` | Idem |
+| Docker Installation | `docker compose up --build` | Same |
+| Start Zookeeper  | `.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties`                                          | `bin/zookeeper-server-start.sh config/zookeeper.properties` |
+| Start Kafka      | `.\bin\windows\kafka-server-start.bat .\config\server.properties`                                                | `bin/kafka-server-start.sh config/server.properties`      |
+| Create Kafka Topic | `.\bin\windows\kafka-topics.bat --create --topic json-requests --bootstrap-server localhost:9092`                 | `bin/kafka-topics.sh --create --topic json-requests --bootstrap-server localhost:9092` |
+| Build and Start Backend | `dotnet build`, `dotnet run` | Same |
+| Install Frontend Dependencies | `npm install` | Same |
+| Start Frontend | `npm start` | Same |
+| Run Python Script | `python producerKafka.py` | Same |
 
 ---
 
-## Auteurs
+## Authors
 
-Développé par **Samy Hadj-Said** dans le cadre d'une candidature pour un poste de **Software Engineer Intern** chez Criteo.
+Developed by **Samy Hadj-Said** as part of an application for a **Software Engineer Intern** position at Criteo.
