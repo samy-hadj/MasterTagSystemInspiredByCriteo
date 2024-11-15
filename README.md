@@ -11,14 +11,12 @@ L'interface est accessible sur `http://localhost:4200`. Voici un aperçu des fon
 ![Dashboard principal](./assets/1.png)
 *Vue principale du dashboard montrant le flux de données JSON en temps réel*
 
-![Interface d'édition](./assets/2.png)
+![Interface d'édition3](./assets/4.png)
 *Interface d'édition et de validation des données JSON*
 
 ![Dashboard principal2](./assets/3.png)
 *Vue principale du dashboard montrant le flux de données JSON en temps réel*
 
-![Interface d'édition3](./assets/4.png)
-*Interface d'édition et de validation des données JSON*
 
 ## Structure du Projet
 
