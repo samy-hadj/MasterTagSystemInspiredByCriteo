@@ -8,10 +8,12 @@ MasterTagSystem is a real-time JSON data management and processing application, 
 
 The interface is accessible at `http://localhost:4200`. Here are some screenshots of the interface:
 
-![Screenshot 1](./assets/1.png)
-![Screenshot 2](./assets/4.png)
-![Screenshot 3](./assets/5.png)
-![Screenshot 4](./assets/3.png)
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+   <img src="./assets/1.png" alt="Screenshot 1" style="width: 45%; border: 1px solid #ddd; padding: 5px;">
+   <img src="./assets/4.png" alt="Screenshot 2" style="width: 45%; border: 1px solid #ddd; padding: 5px;">
+   <img src="./assets/5.png" alt="Screenshot 3" style="width: 45%; border: 1px solid #ddd; padding: 5px;">
+   <img src="./assets/3.png" alt="Screenshot 4" style="width: 45%; border: 1px solid #ddd; padding: 5px;">
+</div>
 
 ## Project Structure
 
