@@ -66,6 +66,7 @@ services:
       context: ./producerKafka
       dockerfile: Dockerfile
     environment:
+      DOCKER_ENV: true
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       TOPIC_NAME: json-requests
     depends_on:

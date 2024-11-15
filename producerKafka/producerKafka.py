@@ -14,15 +14,16 @@ def on_send_error(excp):
     print(f"Erreur lors de l'envoi du message : {excp}")
 
 # # Création du producteur Kafka avec sérialisation JSON
-# producer = KafkaProducer(
-#     bootstrap_servers='localhost:9092',
-#     value_serializer=lambda v: json.dumps(v).encode('utf-8')
-# )
-
-producer = KafkaProducer(
-    bootstrap_servers=os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'kafka:9092'),
-    value_serializer=lambda v: json.dumps(v).encode('utf-8')
-)
+if os.getenv('DOCKER_ENV') == 'true':
+    producer = KafkaProducer(
+        bootstrap_servers=os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'kafka:9092'),
+        value_serializer=lambda v: json.dumps(v).encode('utf-8')
+    )
+else:
+    producer = KafkaProducer(
+        bootstrap_servers='localhost:9092',
+        value_serializer=lambda v: json.dumps(v).encode('utf-8')
+    )
 
 # Assurez-vous également d'utiliser la variable d'environnement pour le topic Kafka
 topic_name = os.getenv('TOPIC_NAME', 'json-requests')
