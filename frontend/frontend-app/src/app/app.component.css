@@ -92,9 +92,9 @@ app-header {
   box-sizing: border-box;
 }
 
-.editor-container:hover {
+/* .editor-container:hover {
   transform: scale(1.1);
-}
+} */
 
 /* TreeView container style (30%) */
 .tree-view-container {
@@ -108,9 +108,9 @@ app-header {
   box-sizing: border-box;
 }
 
-.tree-view-container:hover {
+/* .tree-view-container:hover {
   transform: scale(1.1);
-}
+} */
 
 /* Responsive design for small screens */
 @media screen and (max-width: 768px) {

@@ -1,40 +1,73 @@
 .tree-view {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  height: 400px;  /* Ajustez la hauteur selon vos besoins */
-  overflow-y: auto; /* Permet le défilement vertical lorsque le contenu dépasse */
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #444;
+  text-align: center;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 5px;
 }
 
 .mat-tree-node {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.mat-tree-node:hover {
+  background-color: #f0f4ff;
+  transform: translateX(5px);
 }
 
 .node-name {
   font-size: 1.1em;
-  color: #333;
-  font-weight: 500;
+  color: #555;
+  font-weight: 600;
+  flex-grow: 1;
 }
 
 button.mat-icon-button {
   margin-right: 10px;
-  color: #3f51b5;
+  /* color: #3f51b5; */
+  background: none; /* Pas de fond par défaut */
+  border: none;
+  padding: 5px;
+  border-radius: 50%; /* Coins arrondis */
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+button.mat-icon-button:hover {
+  /* color: #1e88e5; Changement subtil de couleur de l'icône */
+  background-color: transparent; /* Aucun cercle bleu */
+}
+
+button.mat-icon-button:focus {
+  outline: none; /* Supprime la bordure par défaut */
+}
+
+button.mat-icon-button:hover .mat-icon {
+  transform: scale(1.2); /* Agrandissement léger au survol */
 }
 
 /* Style de l'icône de bascule */
 .mat-icon {
-  font-size: 1.5em;
-  transition: transform 0.3s ease;
+  font-size: 1.3em;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.mat-tree-node button.mat-icon-button:hover .mat-icon {
-  transform: scale(1.2);
-}
-
-.title h2
-{
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: #333;
+.tree-view .mat-tree-node button.mat-icon-button .mat-icon[ng-reflect-ng-class~="expanded"] {
+  transform: rotate(90deg);
 }
