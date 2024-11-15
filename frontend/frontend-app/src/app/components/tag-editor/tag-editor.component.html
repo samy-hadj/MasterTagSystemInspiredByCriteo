@@ -1,17 +1,19 @@
-<div class="tag-editor">
+<div class="title">
   <h2>JSON Tag Editor</h2>
+</div>
+<div class="tag-editor">
   <div class="editor-container">
-    <textarea [(ngModel)]="jsonContent" (input)="onJsonChange()" placeholder="Edit the JSON here" class="json-textarea"></textarea>
+    <div #editor class="json-editor"></div>
   </div>
-  <button (click)="saveChanges()" class="save-button">Save Changes</button>
+  <button (click)="saveChanges()" class="save-button">💾 Save Changes</button>
 
   <!-- Success confirmation message -->
   <div *ngIf="showConfirmation" class="confirmation-message success">
-    Changes saved successfully!
+    ✅ Changes saved successfully!
   </div>
 
   <!-- Error message -->
   <div *ngIf="showError" class="confirmation-message error">
-    Error saving changes.
+    ❌ Error saving changes. Please check your JSON.
   </div>
 </div>
