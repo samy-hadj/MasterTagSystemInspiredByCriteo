@@ -1,7 +1,7 @@
 <div class="search-bar">
     <mat-form-field appearance="fill" class="search-input">
     <mat-label>Search for a JSON</mat-label>
-      <input matInput [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" placeholder="Rechercher..." />
+      <input matInput [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" placeholder="Search..." />
     </mat-form-field>
   
     <mat-list *ngIf="showDropdown && filteredJsons.length > 0">
