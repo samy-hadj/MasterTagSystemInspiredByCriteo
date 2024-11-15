@@ -3,6 +3,7 @@ import json
 import random
 import string
 import time
+import os
 
 # Callback en cas de succès d'envoi de message
 def on_send_success(record_metadata):
@@ -12,11 +13,19 @@ def on_send_success(record_metadata):
 def on_send_error(excp):
     print(f"Erreur lors de l'envoi du message : {excp}")
 
-# Création du producteur Kafka avec sérialisation JSON
+# # Création du producteur Kafka avec sérialisation JSON
+# producer = KafkaProducer(
+#     bootstrap_servers='localhost:9092',
+#     value_serializer=lambda v: json.dumps(v).encode('utf-8')
+# )
+
 producer = KafkaProducer(
-    bootstrap_servers='localhost:9092',
+    bootstrap_servers=os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'kafka:9092'),
     value_serializer=lambda v: json.dumps(v).encode('utf-8')
 )
+
+# Assurez-vous également d'utiliser la variable d'environnement pour le topic Kafka
+topic_name = os.getenv('TOPIC_NAME', 'json-requests')
 
 # Fonction pour générer des données JSON complexes avec des valeurs variées
 def generate_data():
@@ -61,7 +70,7 @@ def generate_data():
 # Boucle infinie pour envoyer 1000 messages chaque seconde
 while True:
     start_time = time.time()
-    num_messages = 1000
+    num_messages = 500
     messages_sent = 0
 
     # Envoi de 1000 messages en 1 seconde
@@ -81,4 +90,4 @@ while True:
     print(f"Temps total pour envoyer {num_messages} messages : {elapsed_time:.2f} secondes.")
 
     # Attente avant la prochaine itération pour respecter l'intervalle de 1 seconde
-    time.sleep(1)
+    time.sleep(5)

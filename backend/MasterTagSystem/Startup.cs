@@ -22,13 +22,13 @@ namespace MasterTagSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<TagService>();  // Enregistrer TagService
+            services.AddSingleton<TagService>();  // Changer en Singleton
 
             // Enregistrer KafkaConsumerService en tant que service hébergé
             services.AddHostedService<KafkaConsumerService>();
 
             // Configuration MongoDB
-            var mongoConnectionString = "mongodb://localhost:27017";
+            var mongoConnectionString = Configuration.GetValue<string>("MONGO_CONNECTION_STRING") ?? "mongodb://localhost:27017";
             var mongoClient = new MongoClient(mongoConnectionString);
             var mongoDatabase = mongoClient.GetDatabase("CriteoProject");
             services.AddSingleton(mongoDatabase);
@@ -40,10 +40,11 @@ namespace MasterTagSystem
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder.WithOrigins("http://localhost:4200")
-                                      .AllowAnyHeader()
-                                      .AllowAnyMethod()
-                                      .AllowCredentials());
+                    builder => builder
+                        .WithOrigins(Configuration["CORS_ORIGINS"].Split(","))
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials());
             });
         }
 

@@ -1,0 +1,105 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-init:/docker-entrypoint-initdb.d
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: CriteoProject
+    networks:
+      - app-network
+    restart: always
+
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    ports:
+      - "2181:2181"
+    networks:
+      - app-network
+    restart: always
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CREATE_TOPICS: "json-requests:1:1"
+      KAFKA_ZOOKEEPER_CONNECTION_TIMEOUT_MS: 60000
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+    depends_on:
+      - zookeeper
+    networks:
+      - app-network
+    restart: always
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      MONGO_CONNECTION_STRING: mongodb://mongodb:27017
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      ASPNETCORE_URLS: "http://+:5000"
+      CORS_ORIGINS: "http://localhost:4200,http://frontend:4200"
+    networks:
+      - app-network      # Pour MongoDB et Kafka
+      - frontend-backend # Pour la communication avec le frontend
+    depends_on:
+      - mongodb
+      - kafka
+
+  producer:
+    build:
+      context: ./producerKafka
+      dockerfile: Dockerfile
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      TOPIC_NAME: json-requests
+    depends_on:
+      kafka:
+        condition: service_started
+    networks:
+      - app-network
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    environment:
+      - NODE_ENV=production
+      # Add backend URL environment variable
+      - BACKEND_URL=http://backend:5000
+    networks:
+      - frontend-backend
+    depends_on:
+      - backend
+      
+networks:
+  app-network:     # Réseau pour MongoDB et Kafka
+    driver: bridge
+  frontend-backend: # Nouveau réseau dédié front-back
+    driver: bridge
+
+volumes:
+  mongodb_data:

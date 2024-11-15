@@ -3,21 +3,24 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import * as signalR from '@microsoft/signalr';
 import { TagModel } from '../models/tagModel.model';
+// frontend/frontend-app/src/app/services/tag.service.ts
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TagService {
-  private apiUrl = 'http://localhost:5000/api/tag/validate';
-  private hubUrl = 'http://localhost:5000/jsonHub';
+  private backendUrl = environment.backendUrl;
+  
+  private apiUrl = `${this.backendUrl}/api/tag/validate`;
+  private hubUrl = `${this.backendUrl}/jsonHub`;
+  private allJsonDataUrl = `${this.backendUrl}/api/tag/tags`;
+  private updateTagUrl = `${this.backendUrl}/api/tag/update`;
 
   private connection!: signalR.HubConnection;
   private jsonDataSubject = new Subject<any>();
   
   private tagDataUrl = './assets/tagData.json'; // URL de votre fichier JSON local
-  private allJsonDataUrl = 'http://localhost:5000/api/tag/tags'; // URL pour récupérer tous les JSONs
-  private updateTagUrl = 'http://localhost:5000/api/tag/update'; // URL pour mettre à jour un tag
-
 
   constructor(private http: HttpClient) {
     this.setupSignalRConnection();
