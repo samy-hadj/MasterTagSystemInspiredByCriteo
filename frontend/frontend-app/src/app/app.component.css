@@ -59,7 +59,7 @@ app-header {
   border-radius: 10px;
   background-color: #ffffff;
   opacity: 0;
-  transform: translateX(-100px);
+  /* transform: translateX(-100px); */
   animation: slideIn 3s ease-out forwards;
 }
 
@@ -95,7 +95,7 @@ app-header {
   box-sizing: border-box;
   opacity: 0;
   /* transform: translateX(-10%); */
-  animation: slideInFromLeft 1s ease-out forwards;
+  animation: slideInFromLeft 2s ease-out forwards;
 }
 
 /* .editor-container:hover {
@@ -114,7 +114,7 @@ app-header {
   box-sizing: border-box;
   opacity: 0;
   /* transform: translateX(10%); */
-  animation: slideInFromRight 1s ease-out forwards;
+  animation: slideInFromRight 2s ease-out forwards; 
 }
 
 /* .tree-view-container:hover {
