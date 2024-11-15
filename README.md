@@ -10,7 +10,8 @@ The interface is accessible at `http://localhost:4200`. Here are some screenshot
 
 ![Screenshot 1](./assets/1.png)
 ![Screenshot 2](./assets/4.png)
-![Screenshot 3](./assets/3.png)
+![Screenshot 3](./assets/5.png)
+![Screenshot 4](./assets/3.png)
 
 ## Project Structure
 
