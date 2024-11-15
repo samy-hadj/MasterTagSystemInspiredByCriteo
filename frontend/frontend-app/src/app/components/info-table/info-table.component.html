@@ -13,7 +13,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let tag of jsonList | slice:0:5" (click)="selectJson(tag)">
+        <tr
+          *ngFor="let tag of jsonList | slice:0:5"
+          (click)="selectJson(tag)"
+          [class.selected]="isRowSelected(tag)">
           <td>{{ tag.id }}</td>
           <td>{{ tag.destinationUrl }}</td>
           <td>
@@ -33,4 +36,3 @@
   
     <p *ngIf="jsonList.length === 0" class="empty-message">Aucun JSON à afficher.</p>
   </div>
-  

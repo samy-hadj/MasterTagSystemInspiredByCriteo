@@ -2,10 +2,13 @@
   <h2>JSON Tag Editor</h2>
 </div>
 <div class="tag-editor">
+  <div class="editor-toolbar">
+    <button (click)="saveChanges()" class="save-button">💾 Save Changes</button>
+    <button (click)="formatJSON()" class="format-button">📝 Format JSON</button>
+  </div>
   <div class="editor-container">
     <div #editor class="json-editor"></div>
   </div>
-  <button (click)="saveChanges()" class="save-button">💾 Save Changes</button>
 
   <!-- Success confirmation message -->
   <div *ngIf="showConfirmation" class="confirmation-message success">

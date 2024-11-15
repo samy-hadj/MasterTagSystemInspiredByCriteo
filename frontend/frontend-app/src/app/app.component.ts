@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TagService } from './services/tag.service';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { TagModel } from './models/tagModel.model';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ export class AppComponent implements OnInit {
   parsedJson: any;           // JSON analysé à passer à TreeView
   allTags: any[] = [];       // Liste de tous les JSONs
   selectedTagId: string = ''; // ID du tag sélectionné
+  selectedTag: TagModel | null = null;
 
   @ViewChild(SearchBarComponent) searchBar: SearchBarComponent | undefined;
 
@@ -50,21 +52,22 @@ export class AppComponent implements OnInit {
     this.parsedJson = JSON.parse(newJsonContent);  // Mettre à jour parsedJson
   }
 
-  // Fonction pour sélectionner un tag depuis la SearchBar
-  onJsonSelected(json: any) {
-    this.selectedTagId = json.id;  // Met à jour l'ID du tag sélectionné
-    this.parsedJson = json;  // Met à jour le JSON sélectionné
-    this.jsonContent = JSON.stringify(json, null, 2);  // Met à jour l'éditeur
-  }
-
   // Fonction appelée lors d'une mise à jour réussie pour rafraîchir la liste des tags
   refreshTagList() {
     console.log("Mise à jour réussie, recharge la liste des tags...");
     this.loadTags();  // Recharge les tags depuis le backend
   }
 
-  // Méthode appelée lorsqu'un JSON est sélectionné dans la InfoTable
-  onJsonFromTableSelected(json: any) {
-    this.onJsonSelected(json);  // Utilise la méthode existante pour mettre à jour les composants
+
+  onJsonFromTableSelected(tag: TagModel): void {
+    this.selectedTag = tag;
+    this.jsonContent = JSON.stringify(tag, null, 2);
+    this.selectedTagId = tag.id;
+  }
+  
+  onJsonSelected(tag: TagModel): void {
+    this.selectedTag = tag;
+    this.jsonContent = JSON.stringify(tag, null, 2);
+    this.selectedTagId = tag.id;
   }
 }

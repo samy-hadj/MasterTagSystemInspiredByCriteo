@@ -54,14 +54,17 @@ app-header {
   padding: 20px;
   box-sizing: border-box;
   margin-bottom: 20px;
-  transition: transform 0.3s ease;
+  transition: transform 2s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   background-color: #ffffff;
+  opacity: 0;
+  transform: translateX(-100px);
+  animation: slideIn 3s ease-out forwards;
 }
 
 .info-table-container:hover {
-  transform: scale(1.05);
+  /* transform: scale(1.05); */
 }
 
 /* Main container for editor and tree-view */
@@ -88,8 +91,11 @@ app-header {
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  transition: transform 0.8s ease;
   box-sizing: border-box;
+  opacity: 0;
+  /* transform: translateX(-10%); */
+  animation: slideInFromLeft 1s ease-out forwards;
 }
 
 /* .editor-container:hover {
@@ -106,11 +112,21 @@ app-header {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   box-sizing: border-box;
+  opacity: 0;
+  /* transform: translateX(10%); */
+  animation: slideInFromRight 1s ease-out forwards;
 }
 
 /* .tree-view-container:hover {
   transform: scale(1.1);
 } */
+
+/* Animation pour search-bar-container */
+.search-bar-container {
+  /* opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeInSearchBar 3s ease-out forwards; */
+}
 
 /* Responsive design for small screens */
 @media screen and (max-width: 768px) {
@@ -161,4 +177,51 @@ app-header {
 
 .signature-links a:hover {
   text-decoration: underline;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Keyframes pour info-table */
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Keyframes pour editor et tree-view */
+@keyframes zoomRotateIn {
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Keyframes pour editor-container */
+@keyframes slideInFromLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Keyframes pour tree-view-container */
+@keyframes slideInFromRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Keyframes pour search-bar-container */
+@keyframes fadeInSearchBar {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

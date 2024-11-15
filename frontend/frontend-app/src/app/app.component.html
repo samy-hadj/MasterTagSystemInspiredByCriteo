@@ -2,7 +2,11 @@
   <app-header></app-header>
   <div class="content">
     <div class="info-table-container">
-      <app-info-table (jsonSelected)="onJsonFromTableSelected($event)" [jsonList]="allTags"></app-info-table>
+      <app-info-table
+  [jsonList]="allTags"
+  [selectedTagFromParent]="selectedTag"
+  (jsonSelected)="onJsonFromTableSelected($event)"
+></app-info-table>
     </div>
 
     <div class="search-bar-container">
@@ -19,7 +23,7 @@
         </app-tag-editor>
       </div>
       <div class="tree-view-container">
-        <app-tree-view [jsonData]="parsedJson"></app-tree-view>
+        <app-tree-view [jsonData]="selectedTag"></app-tree-view>
       </div>
     </div>
   </div>

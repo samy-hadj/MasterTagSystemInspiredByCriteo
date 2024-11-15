@@ -8,8 +8,10 @@ import { TagModel } from '../../models/tagModel.model';
   styleUrls: ['./info-table.component.css']
 })
 export class InfoTableComponent implements OnInit {
+  @Input() selectedTagFromParent: TagModel | null = null;
   @Input() jsonList: TagModel[] = [];
   @Output() jsonSelected = new EventEmitter<TagModel>();  // Nouvel événement de type TagModel
+  selectedTag: any;
 
   constructor(private tagService: TagService) {}
 
@@ -28,12 +30,17 @@ export class InfoTableComponent implements OnInit {
   }
 
   // Sélectionner un JSON
-  selectJson(json: TagModel): void {
-    this.jsonSelected.emit(json);  // Émettre l'événement avec le JSON sélectionné
+  selectJson(tag: any): void {
+    this.selectedTag = tag;
+    this.jsonSelected.emit(tag);  // Émettre l'événement avec le JSON sélectionné
   }
 
   // Formater les données de suivi en JSON si elles sont en format objet
   formatTrackingData(data: any): string {
     return typeof data === 'object' ? JSON.stringify(data) : data;
+  }
+
+  isRowSelected(tag: any): boolean {
+    return this.selectedTagFromParent?.id === tag.id;
   }
 }
