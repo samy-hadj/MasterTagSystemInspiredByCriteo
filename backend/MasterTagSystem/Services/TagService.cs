@@ -7,25 +7,38 @@ using System.Collections.Generic;
 
 namespace MasterTagSystem.Services
 {
+    /// <summary>
+    /// Service for managing tags, including validation, storage in MongoDB, and broadcasting updates via SignalR.
+    /// </summary>
     public class TagService
     {
-        private readonly IMongoCollection<TagModel> _jsonCollection;
-        private readonly IHubContext<JsonHub> _hubContext;
+        private readonly IMongoCollection<TagModel> _jsonCollection; // MongoDB collection for storing tags
+        private readonly IHubContext<JsonHub> _hubContext; // SignalR hub for broadcasting updates
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TagService"/> class.
+        /// </summary>
+        /// <param name="database">MongoDB database instance.</param>
+        /// <param name="hubContext">SignalR hub context for broadcasting messages.</param>
         public TagService(IMongoDatabase database, IHubContext<JsonHub> hubContext)
         {
             _jsonCollection = database.GetCollection<TagModel>("jsons");
             _hubContext = hubContext;
         }
 
+        /// <summary>
+        /// Validates and processes a tag. If valid, stores it in MongoDB and broadcasts it to all clients.
+        /// </summary>
+        /// <param name="tag">The tag to validate and process.</param>
+        /// <returns>True if the tag is valid and processed successfully; otherwise, false.</returns>
         public bool ValidateTag(TagModel tag)
         {
             try
             {
-                // Générer un nombre aléatoire entre 0 et 1, et valider si c'est inférieur ou égal à 10%
-                if (new Random().NextDouble() <= 0.1) // 10% de chance
+                // Generate a random number between 0 and 1. Validate only if it's <= 10%.
+                if (new Random().NextDouble() <= 0.1) // 10% chance
                 {
-                    // Validation des données
+                    // Validate tag data
                     if (string.IsNullOrEmpty(tag.id) ||
                         string.IsNullOrEmpty(tag.destinationUrl) ||
                         !Uri.IsWellFormedUriString(tag.destinationUrl, UriKind.Absolute) ||
@@ -33,32 +46,36 @@ namespace MasterTagSystem.Services
                         tag.clickCount == null ||
                         tag.sessionId == null)
                     {
-                        // Console.WriteLine("Données non valides ignorées.");
+                        // Console.WriteLine("Invalid data ignored.");
                         return false;
                     }
 
-                    // Insertion dans MongoDB si validé
+                    // Insert into MongoDB if validated
                     _jsonCollection.InsertOne(tag);
-                    Console.WriteLine("Données valides ! Insertion réussie : " + tag);
+                    Console.WriteLine("Valid data! Successfully inserted: " + tag);
 
-                    // Diffusion aux clients
+                    // Broadcast to clients
                     _hubContext.Clients.All.SendAsync("ReceiveJsonUpdate", tag);
                     return true;
                 }
                 else
                 {
-                    // Ignorer les messages non validés
-                    // Console.WriteLine("Message ignoré.");
+                    // Ignore unvalidated messages
+                    // Console.WriteLine("Message ignored.");
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erreur lors de l'insertion : {ex.Message}");
+                Console.WriteLine($"Error during insertion: {ex.Message}");
                 return false;
             }
         }
 
+        /// <summary>
+        /// Retrieves all tags from the MongoDB collection.
+        /// </summary>
+        /// <returns>A list of all tags.</returns>
         public List<TagModel> GetAllTags()
         {
             try
@@ -67,16 +84,22 @@ namespace MasterTagSystem.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erreur lors de la récupération des tags : {ex.Message}");
+                Console.WriteLine($"Error retrieving tags: {ex.Message}");
                 return new List<TagModel>();
             }
         }
 
+        /// <summary>
+        /// Updates an existing tag in the MongoDB collection.
+        /// </summary>
+        /// <param name="id">The ID of the tag to update.</param>
+        /// <param name="updatedTag">The updated tag data.</param>
+        /// <returns>True if the tag was updated successfully; otherwise, false.</returns>
         public bool UpdateTag(string id, TagModel updatedTag)
         {
             try
             {
-                var filter = Builders<TagModel>.Filter.Eq(t => t.id, id);
+                var filter = Builders<TagModel>.Filter.Eq(t => t.id, id); // Filter by ID
                 var update = Builders<TagModel>.Update
                     .Set(t => t.id, updatedTag.id)
                     .Set(t => t.destinationUrl, updatedTag.destinationUrl)
@@ -89,18 +112,19 @@ namespace MasterTagSystem.Services
 
                 if (result.ModifiedCount > 0)
                 {
+                    // Notify clients of the update
                     _hubContext.Clients.All.SendAsync("ReceiveJsonUpdate", updatedTag);
                     return true;
                 }
                 else
                 {
-                    Console.WriteLine("Aucun tag mis à jour.");
+                    Console.WriteLine("No tag updated.");
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erreur lors de la mise à jour du tag : {ex.Message}");
+                Console.WriteLine($"Error updating tag: {ex.Message}");
                 return false;
             }
         }
