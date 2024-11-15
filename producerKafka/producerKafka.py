@@ -70,7 +70,7 @@ def generate_data():
 # Boucle infinie pour envoyer 1000 messages chaque seconde
 while True:
     start_time = time.time()
-    num_messages = 500
+    num_messages = 200
     messages_sent = 0
 
     # Envoi de 1000 messages en 1 seconde

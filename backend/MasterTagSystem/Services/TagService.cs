@@ -33,13 +33,13 @@ namespace MasterTagSystem.Services
                         tag.clickCount == null ||
                         tag.sessionId == null)
                     {
-                        Console.WriteLine("Données non valides ignorées.");
+                        // Console.WriteLine("Données non valides ignorées.");
                         return false;
                     }
 
                     // Insertion dans MongoDB si validé
                     _jsonCollection.InsertOne(tag);
-                    Console.WriteLine("Insertion réussie : " + tag);
+                    Console.WriteLine("Données valides ! Insertion réussie : " + tag);
 
                     // Diffusion aux clients
                     _hubContext.Clients.All.SendAsync("ReceiveJsonUpdate", tag);
@@ -48,7 +48,7 @@ namespace MasterTagSystem.Services
                 else
                 {
                     // Ignorer les messages non validés
-                    Console.WriteLine("Message ignoré.");
+                    // Console.WriteLine("Message ignoré.");
                     return false;
                 }
             }

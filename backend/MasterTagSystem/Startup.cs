@@ -41,7 +41,7 @@ namespace MasterTagSystem
             {
                 options.AddPolicy("AllowSpecificOrigin",
                     builder => builder
-                        .WithOrigins(Configuration["CORS_ORIGINS"].Split(","))
+                        .WithOrigins(Configuration["CORS_ORIGINS"]?.Split(",") ?? new[] { "http://localhost:4200" })
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials());

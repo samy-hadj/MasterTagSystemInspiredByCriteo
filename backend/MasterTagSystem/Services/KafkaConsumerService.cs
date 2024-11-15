@@ -1,82 +1,89 @@
+using Confluent.Kafka;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using MasterTagSystem.Models;
 using System;
+using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Confluent.Kafka;
-using Microsoft.Extensions.Configuration;
-using System.Text.Json;
 
 namespace MasterTagSystem.Services
 {
     public class KafkaConsumerService : IHostedService
     {
-        private readonly ILogger<KafkaConsumerService> _logger;
-        private readonly IConsumer<string, string> _consumer;
-        private readonly string _topic = "json-requests";
-        private bool _running;
-
         private readonly IConfiguration _configuration;
+        private readonly IConsumer<Ignore, string> _consumer;
         private readonly TagService _tagService;
+        private readonly string _topic = "json-requests";
 
-        public KafkaConsumerService(ILogger<KafkaConsumerService> logger, IConfiguration configuration, TagService tagService)
+        public KafkaConsumerService(IConfiguration configuration, TagService tagService)
         {
-            _logger = logger;
             _configuration = configuration;
-            _tagService = tagService;
-
-            var bootstrapServers = _configuration.GetValue<string>("KAFKA_BOOTSTRAP_SERVERS") 
-                ?? Environment.GetEnvironmentVariable("KAFKA_BOOTSTRAP_SERVERS") 
-                ?? "kafka:9092";
-
-            // Configuration de Kafka
             var config = new ConsumerConfig
             {
-                BootstrapServers = bootstrapServers,
-                GroupId = "mastertagsystem-consumer-group",
-                AutoOffsetReset = AutoOffsetReset.Earliest
+                BootstrapServers = _configuration.GetValue<string>("KAFKA_BOOTSTRAP_SERVERS") ?? "localhost:9092",
+                GroupId = "json-consumer-group",
+                AutoOffsetReset = AutoOffsetReset.Earliest,
+                EnableAutoCommit = false // Permet un contrôle manuel des offsets
             };
-            _consumer = new ConsumerBuilder<string, string>(config).Build();
+            _consumer = new ConsumerBuilder<Ignore, string>(config).Build();
+            _tagService = tagService;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _running = true;
+            _consumer.Subscribe(_topic);
 
-            // Démarrage de la tâche de consommation
-            Task.Run(() => StartConsuming(cancellationToken), cancellationToken);
+            Task.Run(async () =>
+            {
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    try
+                    {
+                        var messages = new List<ConsumeResult<Ignore, string>>();
+                        for (int i = 0; i < 100; i++)  // Récupère jusqu'à 100 messages en batch
+                        {
+                            var result = _consumer.Consume(TimeSpan.FromMilliseconds(100));
+                            if (result != null)
+                                messages.Add(result);
+                            else
+                                break;
+                        }
+
+                        // Traiter tous les messages récupérés
+                        foreach (var message in messages)
+                        {
+                            try
+                            {
+                                var tagData = JsonSerializer.Deserialize<TagModel>(message.Message.Value);
+                                if (tagData != null)
+                                {
+                                    _tagService.ValidateTag(tagData);
+                                }
+                                _consumer.Commit(message); // Marquer l'offset comme traité
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Erreur de traitement du message : {ex.Message}");
+                            }
+                        }
+                    }
+                    catch (OperationCanceledException) { }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Erreur lors de la consommation : {ex.Message}");
+                        await Task.Delay(5000, cancellationToken); // Temporisation avant nouvelle tentative
+                    }
+                }
+            }, cancellationToken);
 
             return Task.CompletedTask;
         }
 
-        private async Task StartConsuming(CancellationToken cancellationToken)
-        {
-            while (_running && !cancellationToken.IsCancellationRequested)
-            {
-                try
-                {
-                    // Abonnement au topic
-                    _consumer.Subscribe(_topic);
-                    var result = _consumer.Consume(cancellationToken);
-
-                    // Traiter le message
-                    _logger.LogInformation($"Message reçu : {result.Message.Value}");
-                    // Appel du service TagService ou autre traitement ici
-                    var tagModel = JsonSerializer.Deserialize<MasterTagSystem.Models.TagModel>(result.Message.Value);
-                    _tagService.ValidateTag(tagModel);
-
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"Erreur lors de la consommation de Kafka : {ex.Message}");
-                    await Task.Delay(5000, cancellationToken); // Attendre avant de réessayer
-                }
-            }
-        }
-
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            _running = false;
+            _consumer.Unsubscribe();
             _consumer.Close();
             _consumer.Dispose();
             return Task.CompletedTask;
