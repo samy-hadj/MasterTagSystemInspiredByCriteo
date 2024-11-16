@@ -62,7 +62,7 @@ Download Kafka from the link above, then follow the steps below. Commands are pr
 2. **Start Kafka:**
    - **PowerShell**: 
      ```powershell
-     .\bin\windows\kafka-server-start.bat .\config\server.properties
+     .\bin\windows\kafka-server-start .\config\server.properties
      ```
    - **WSL**: 
      ```bash
@@ -72,7 +72,7 @@ Download Kafka from the link above, then follow the steps below. Commands are pr
 3. **Create Kafka Topic:**
    - **PowerShell**: 
      ```powershell
-     .\bin\windows\kafka-topics.bat --create --topic json-requests --bootstrap-server localhost:9092
+     .\bin\windows\kafka-topics --create --topic json-requests --bootstrap-server localhost:9092
      ```
    - **WSL**: 
      ```bash
