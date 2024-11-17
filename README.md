@@ -4,6 +4,10 @@
 
 MasterTagSystem is a real-time JSON data management and processing application, featuring a C# (ASP.NET Core) backend for storage and validation, an Angular frontend for data visualization and editing, and Kafka for message streaming. The solution includes MongoDB for data storage and uses SignalR for real-time communication with the frontend.
 
+## Purpose
+
+This project is a proactive initiative to enhance my application for the **Software Engineer Intern - Backend or Fullstack** position at **CRITEO**. I applied for this job on September 6, 2024, and I am currently in the 'interview in progress' status, having successfully passed the first two stages of the recruitment process. Although this project is not a requirement, it demonstrates my enthusiasm and commitment to joining **CRITEO**.
+
 ## User Interface
 
 The interface is accessible at `http://localhost:4200`. Here are some screenshots of the interface:
@@ -155,4 +159,4 @@ This script automatically sends JSON messages to the backend via Kafka to popula
 
 ## Authors
 
-Developed by **Samy Hadj-Said** as part of an application for a **Software Engineer Intern** position at Criteo.
+Developed by **Samy Hadj-Said** as part of an application for a **Software Engineer Intern** position at **CRITEO**.
