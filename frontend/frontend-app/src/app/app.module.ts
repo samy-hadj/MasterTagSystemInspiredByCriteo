@@ -25,6 +25,7 @@ import { TreeViewComponent } from './components/tree-view/tree-view.component';
 
 
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
+// import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
     HlmButtonDirective
   ],
   providers: [],
+  // schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
