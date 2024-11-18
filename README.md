@@ -5,7 +5,7 @@
 MasterTagSystem is a real-time JSON data management and processing application, featuring a **C# (ASP.NET Core)** backend for storage and validation, an **Angular** for data visualization and editing, and **Kafka** for message streaming. The solution includes **MongoDB** for data storage and uses **SignalR** for real-time communication with the frontend.
 
 <p align="center">
-   <img src="./assets/criteo.png" alt="Criteo Logo">
+   <img src="./assets/criteo_without_background.png" alt="Criteo Logo">
 </p>
 
 ## Purpose
