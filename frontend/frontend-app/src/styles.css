@@ -1,57 +1,104 @@
-@import '@angular/cdk/overlay-prebuilt.css';
+You can add global styles to this file, and also import other style files
+/* @import '@gjax/angular-tree-component/css/angular-tree-component.css'; */
+/* @import '~@gjax/angular-tree-component/css/angular-tree-component.css'; */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
-/* You can add global styles to this file, and also import other style files */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
+/*
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .content {
+    display: flex;
+    flex: 1;
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .editor-container {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .editor-section {
+    flex: 1;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tree-section {
+    flex: 1;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  textarea {
+    width: 100%;
+    height: 300px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    font-family: 'Courier New', Courier, monospace;
+    resize: none;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  .json-tree {
+    margin-top: 20px;
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 5px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  .mat-tree {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .mat-tree-node {
+    padding-left: 20px;
+  }
+  
+  .mat-icon {
+    cursor: pointer;
+  }
 
 
-:root {
---font-sans: ''
-}
-
-:root {
---background: 0 0% 100%;
---foreground: 240 10% 3.9%;
---card: 0 0% 100%;
---card-foreground: 240 10% 3.9%;
---popover: 0 0% 100%;;
---popover-foreground: 240 10% 3.9%;
---primary: 240 5.9% 10%;
---primary-foreground: 0 0% 98%;
---secondary: 240 4.8% 95.9%;
---secondary-foreground: 240 5.9% 10%;
---muted: 240 4.8% 95.9%;
---muted-foreground: 240 3.8% 46.1%;
---accent: 240 4.8% 95.9%;
---accent-foreground: 240 5.9% 10%;
---destructive: 0 84.2% 60.2%;
---destructive-foreground: 0 0% 98%;
---border: 240 5.9% 90%;
---input: 240 5.9% 90%;
---ring: 240 5.9% 10%;
---radius: 0.5rem;
-}
-
-.dark {
---background: 240 10% 3.9%;
---foreground: 0 0% 98%;
---card: 240 10% 3.9%;
---card-foreground: 0 0% 98%;
---popover: 240 10% 3.9%;
---popover-foreground: 0 0% 98%;
---primary: 0 0% 98%;
---primary-foreground: 240 5.9% 10%;
---secondary: 240 3.7% 15.9%;
---secondary-foreground: 0 0% 98%;
---muted: 240 3.7% 15.9%;
---muted-foreground: 240 5% 64.9%;
---accent: 240 3.7% 15.9%;
---accent-foreground: 0 0% 98%;
---destructive: 0 62.8% 30.6%;
---destructive-foreground: 0 0% 98%;
---border: 240 3.7% 15.9%;
---input: 240 3.7% 15.9%;
---ring: 240 4.9% 83.9%;
-}
+*/

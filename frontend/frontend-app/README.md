@@ -1,47 +1,27 @@
-# example-angular-spartan
-本リポジトリは Angular + Spartan NG を使用したアプリケーションのサンプルソースコードです。
+# FrontendApp
 
-- Angular : Web アプリケーションのフロントエンドフレームワーク
-  - https://angular.dev/
-- Spartan NG : Angular で利用可能な UI コンポーネントツール
-  - https://www.spartan.ng/
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
 
-## 環境構築
-ご使用のマシンに Node.js が導入済みの前提で記載します。
+## Development server
 
-まず、本リポジトリをマシンに `git clone` でクローンします。
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-その後、以下のコマンドで node モジュールをインストールします。
+## Code scaffolding
 
-```bash
-# リポジトリ ディレクトリに移動
-cd ./example-angular-spartan
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-# node モジュールインストール
-npm i
-```
+## Build
 
-以上で、環境構築は完了です。
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## 起動
+## Running unit tests
 
-### サーバ起動
-以下のコマンドで、サーバを起動します。
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-```bash
-npm run start
-```
+## Running end-to-end tests
 
-サーバ起動完了後、Web ブラウザで以下の URL にアクセスすると、アプリを利用できます。
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-```bash
-http://localhost:4200
-```
+## Further help
 
-### サーバ停止
-ターミナルにて、以下のコマンドで、サーバを停止します。
-
-| OS | コマンド |
-|---|---|
-| macOS / Linux | control + C |
-| Windows | Ctrl + C |
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
